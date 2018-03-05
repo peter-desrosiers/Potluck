@@ -11,32 +11,54 @@ import {
   Text,
   View
 } from 'react-native';
-import PropTypes from 'prop-types'
-
+import PropTypes from 'prop-types';
+import PotluckProgressItemYN from './PotluckProgressItemYN';
 
 
 export default class ViewPotluck extends Component<Props> {
 
   static defaultProps = {
     isGroupPotluck: false
-  }
+  };
 
   render() {
-    let isGroupPotluck = this.props.isGroupPotluck;
+    let isGroupPotluck = this.props.potluck.isGroupPotluck;
+    let showPercentage = this.props.potluck.showPercentage;
+    let members = this.props.potluck.members;
+    let pricePerPerson = this.props.potluck.pricePerPerson;
+    let dateDue = this.props.potluck.dateDue;
+    let adminID = this.props.potluck.adminID;
+    let progressItems;
+    
+    if(isGroupPotluck){
+      if(showPercentage){
+        progressItems = members.map(member=>{
+          return(
+            <PotluckProgressItemYN member={member}/>
+          )
 
-    if(isGroupPotluck===true){
+        })
+        return (
+            <View style={styles.container}>
+              <Text>Group Potluck: Show percentage</Text>
+              {progressItems}
+            </View>
+          );
+      }else{
+        return (
+            <View style={styles.container}>
+              <Text>Group Potluck: Dont show percentage</Text>
+            </View>
+          );
+      }
+    }else{
       return (
           <View style={styles.container}>
-            <Text>BYE</Text>
-
+            <Text>Screen for personal potluck</Text>
           </View>
         );
+
     }
-    return (
-        <View style={styles.container}>
-          <Text>YOOOO</Text>
-        </View>
-      );
   }
 }
 

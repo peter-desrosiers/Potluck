@@ -15,18 +15,54 @@ import {
 
 import ViewPotluck from './Components/Potluck/ViewPotluck/ViewPotluck';
 
+let samplePotluck = {
+  members :[
+    {
+      accountID: 0,
+      name: "Brandon Cornel",
+      amount: "0",
+      isAdmin: true
+    },
+    {
+      accountID: 1,
+      name: "Matthew Gallagher",
+      amount: "2000",
+      isAdmin: false
+    },
+    {
+      accountID: 2,
+      name: "Peter Desrosiers",
+      amount: "1500",
+      isAdmin: false
+    },
+    {
+      accountID: 3,
+      name: "Dan Sweetman",
+      amount: "2000",
+      isAdmin: false
+    },
 
 
-type Props = {};
+  ],
+  isGroupPotluck: true,
+  showPercentage: true,
+  pricePerPerson: 2000,
+  dateDue: "2018-05-18",
+  adminID: 0
+
+
+}
+
+let sampleUser = {
+  accountID: 0,
+  name: "Brandon Cornel"
+}
+
+
 export default class App extends Component<Props> {
   constructor(){
     super();
-    this.state={
-      potlucks:[
-        {
-        }
-      ]
-    };
+
   }
 
 
@@ -41,7 +77,7 @@ export default class App extends Component<Props> {
 
 
       <View  style={platformSpecificStyle}>
-        <ViewPotluck isGroupPotluck={true} />
+        <ViewPotluck user = {sampleUser} potluck = {samplePotluck} />
       </View>
     );
   }
