@@ -14,7 +14,7 @@ import {
 import PropTypes from 'prop-types';
 import PotluckProgressItemYN from './PotluckProgressItemYN';
 import PersonalProgress from './PersonalProgress';
-
+import AddMoney from '../AddMoney/AddMoney';
 
 export default class ViewPotluck extends Component<Props> {
 
@@ -86,6 +86,9 @@ export default class ViewPotluck extends Component<Props> {
 
           {progressComponent}
           <PersonalProgress userPotluckInfo={userPotluckInfo} pricePerPerson={pricePerPerson}/>
+          <View style ={styles.addMoney}>
+            <AddMoney  userPotluckInfo={userPotluckInfo} pricePerPerson={pricePerPerson}/>
+          </View>
         </View>
       );
   }
@@ -107,7 +110,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     paddingTop: 30,
     paddingBottom: 30
-
+  },
+  addMoney:{
+    alignItems: 'center'
   }
 });
 

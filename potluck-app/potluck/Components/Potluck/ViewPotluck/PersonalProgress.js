@@ -51,5 +51,6 @@ const styles = StyleSheet.create({
 });
 
 PersonalProgress.propTypes = {
-  isGroupPotluck: PropTypes.bool
+  userPotluckInfo: PropTypes.object,
+  pricePerPerson: PropTypes.number
 };
