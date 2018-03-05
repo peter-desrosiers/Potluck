@@ -20,7 +20,7 @@ let samplePotluck = {
     {
       accountID: 0,
       name: "Brandon Cornel",
-      amount: "0",
+      amount: "1499",
       isAdmin: true
     },
     {
@@ -44,7 +44,8 @@ let samplePotluck = {
 
 
   ],
-  groupName: "Debt Daddies",
+  potluckName: "Toronto Trip with the Debt Daddies",
+  potluckDescription: "WE WANT TO GO TO CANADA SO WE CAN BUY MAPLE SYRUP AND EAT POUTINE.",
   isGroupPotluck: true,
   showPercentage: true,
   pricePerPerson: 2000,
@@ -54,7 +55,7 @@ let samplePotluck = {
 
 }
 
-let sampleUser = {
+let sampleLoggedInUser = {
   accountID: 0,
   name: "Brandon Cornel"
 }
@@ -78,7 +79,7 @@ export default class App extends Component<Props> {
 
 
       <View  style={platformSpecificStyle}>
-        <ViewPotluck user = {sampleUser} potluck = {samplePotluck} />
+        <ViewPotluck user = {sampleLoggedInUser} potluck = {samplePotluck} />
       </View>
     );
   }
