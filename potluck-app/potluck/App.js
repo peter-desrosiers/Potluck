@@ -15,55 +15,57 @@ import {
 
 import ViewPotluck from './Components/Potluck/ViewPotluck/ViewPotluck';
 
-let samplePotluck = {
-  members :[
-    {
-      accountID: 0,
-      name: "Brandon Cornel",
-      amount: "1499",
-      isAdmin: true
-    },
-    {
-      accountID: 1,
-      name: "Matthew Gallagher",
-      amount: "2000",
-      isAdmin: false
-    },
-    {
-      accountID: 2,
-      name: "Peter Desrosiers",
-      amount: "1500",
-      isAdmin: false
-    },
-    {
-      accountID: 3,
-      name: "Dan Sweetman",
-      amount: "2000",
-      isAdmin: false
-    },
-
-
-  ],
-  potluckName: "Toronto Trip with the Debt Daddies",
-  potluckDescription: "WE WANT TO GO TO CANADA SO WE CAN BUY MAPLE SYRUP AND EAT POUTINE.",
-  isGroupPotluck: true,
-  showPercentage: true,
-  pricePerPerson: 2000,
-  dateDue: "2018-05-18",
-  adminID: 0
-
-
-}
-
-let sampleLoggedInUser = {
-  accountID: 0,
-  name: "Brandon Cornel"
-}
-
-
 export default class App extends Component<Props> {
   constructor(){
     super();
+    let samplePotluck = {
+      members :[
+        {
+          accountID: 0,
+          name: "Brandon Cornel",
+          amount: "1499",
+          isAdmin: true
+        },
+        {
+          accountID: 1,
+          name: "Matthew Gallagher",
+          amount: "2000",
+          isAdmin: false
+        },
+        {
+          accountID: 2,
+          name: "Peter Desrosiers",
+          amount: "1500",
+          isAdmin: false
+        },
+        {
+          accountID: 3,
+          name: "Dan Sweetman",
+          amount: "2000",
+          isAdmin: false
+        },
+
+
+      ],
+      potluckName: "Toronto Trip with the Debt Daddies",
+      potluckDescription: "WE WANT TO GO TO CANADA SO WE CAN BUY MAPLE SYRUP AND EAT POUTINE.",
+      isGroupPotluck: true,
+      showPercentage: true,
+      pricePerPerson: 2000,
+      dateDue: "2018-05-18",
+      adminID: 0
+
+
+    }
+
+    let sampleLoggedInUser = {
+      accountID: 0,
+      name: "Brandon Cornel"
+    }
+    this.state={
+      sampleLoggedInUser,
+      samplePotluck
+    }
 
   }
 
@@ -79,7 +81,7 @@ export default class App extends Component<Props> {
 
 
       <View  style={platformSpecificStyle}>
-        <ViewPotluck user = {sampleLoggedInUser} potluck = {samplePotluck} />
+        <ViewPotluck user = {this.state.sampleLoggedInUser} potluck = {this.state.samplePotluck} />
       </View>
     );
   }
