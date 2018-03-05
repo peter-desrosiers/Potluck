@@ -44,6 +44,7 @@ let samplePotluck = {
 
 
   ],
+  groupName: "Debt Daddies",
   isGroupPotluck: true,
   showPercentage: true,
   pricePerPerson: 2000,

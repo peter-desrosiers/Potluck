@@ -20,22 +20,46 @@ export default class PotluckProgressItemYN extends Component<Props> {
   static defaultProps = {
   };
 
+  progressStyling(completedGoal){
+    if(completedGoal==='Yes'){
+      return{
+        color: 'green'
+      }
+    }
+    return{
+      color: 'red'
+
+    }
+
+  }
+
   render() {
+    let memberName = this.props.member.name;
+    let accountID = this.props.member.accountID;
+    let amount = this.props.member.amount;
+    let pricePerPerson = this.props.pricePerPerson;
+    let completedGoal = (amount==pricePerPerson? "Yes" : "No");
+
       return (
           <View style={styles.container}>
-            <Text>Each Item for Potluck Progress: {this.props.member.name}</Text>
+            <Text style={styles.name}>{this.props.member.name}:</Text>
+             <Text style={this.progressStyling(completedGoal)}>{completedGoal}</Text>
           </View>
         );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  name:{
+    fontWeight: 'bold'
 
+  },
+  container:{
+    padding:10
   }
 });
 
 PotluckProgressItemYN.propTypes = {
-  isGroupPotluck: PropTypes.bool,
-  potluck: PropTypes.object
+  pricePerPerson: PropTypes.number,
+  member: PropTypes.object
 };

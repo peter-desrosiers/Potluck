@@ -28,20 +28,23 @@ export default class ViewPotluck extends Component<Props> {
     let pricePerPerson = this.props.potluck.pricePerPerson;
     let dateDue = this.props.potluck.dateDue;
     let adminID = this.props.potluck.adminID;
+    let groupName = this.props.potluck.groupName
     let progressItems;
-    
+
     if(isGroupPotluck){
       if(showPercentage){
         progressItems = members.map(member=>{
           return(
-            <PotluckProgressItemYN member={member}/>
+              <PotluckProgressItemYN  member={member} key={member.accountID} pricePerPerson={pricePerPerson}/>
           )
 
         })
-        return (
-            <View style={styles.container}>
-              <Text>Group Potluck: Show percentage</Text>
-              {progressItems}
+        return(
+            <View>
+              <Text style={styles.groupName}>{groupName}</Text>
+              <View style={styles.progress}>
+                {progressItems}
+              </View>
             </View>
           );
       }else{
@@ -63,9 +66,18 @@ export default class ViewPotluck extends Component<Props> {
 }
 
 const styles = StyleSheet.create({
-  container: {
-
+  groupName: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
   },
+  savingItem:{
+    backgroundColor: 'red'
+  },
+  progress:{
+    flexDirection: 'column',
+
+  }
 });
 
 ViewPotluck.propTypes = {
