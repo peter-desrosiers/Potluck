@@ -12,27 +12,101 @@ import {
   View
 } from 'react-native';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
 
-type Props = {};
-export default class App extends Component<Props> {
-  render() {
+import ViewPotluck from './Components/Potluck/ViewPotluck/ViewPotluck';
+
+export default class potluck extends Component<Props> {
+  constructor(){
+    super();
+    let samplePotluck = {
+      members :[
+        {
+          accountID: 0,
+          name: "Brandon Cornel",
+          amount: "1499",
+          isAdmin: true
+        },
+        {
+          accountID: 1,
+          name: "Matthew Gallagher",
+          amount: "2000",
+          isAdmin: false
+        },
+        {
+          accountID: 2,
+          name: "Peter Desrosiers",
+          amount: "1500",
+          isAdmin: false
+        },
+        {
+          accountID: 3,
+          name: "Dan Sweetman",
+          amount: "2000",
+          isAdmin: false
+        },
+
+
+      ],
+      potluckName: "Toronto Trip with the Debt Daddies",
+      potluckDescription: "WE WANT TO GO TO CANADA SO WE CAN BUY MAPLE SYRUP AND EAT POUTINE.",
+      isGroupPotluck: true,
+      showPercentage: true,
+      pricePerPerson: 2000,
+      dateDue: "2018-05-18",
+      adminID: 0
+
+
+    }
+
+    let sampleLoggedInUser = {
+      accountID: 0,
+      name: "Brandon Cornel"
+    }
+    this.state={
+      sampleLoggedInUser,
+      samplePotluck
+    }
+
+  }
+
+  findUserInGroup(userID){
+    for(var i = 0;i<this.state.samplePotluck.members.length;i++){
+      if(this.state.samplePotluck.members[i].accountID === userID){
+        return i;
+      }
+    }
+  }
+
+  handleAddMoney(newAmount, userID){
+    console.log(newAmount,userID)
+    var userIndexInPotluck = this.findUserInGroup(userID);
+    var newSamplePotluck = this.state.samplePotluck;
+    var members = newSamplePotluck.members;
+    var newData = members[userIndexInPotluck]
+    newData.amount = newAmount;
+    //Need to find a way to change it
+    this.setState({
+      samplePotluck: newSamplePotluck
+    });
+
+
+  }
+
+
+
+
+  render(){
+  let platform = Platform.OS;
+  let platformSpecificStyle = {}
+  if(platform === 'ios') { platformSpecificStyle = {paddingTop: 20} }
+
+
+
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
+
+
+      <View  style={platformSpecificStyle}>
+        <ViewPotluck addMoney={this.handleAddMoney.bind(this)} user = {this.state.sampleLoggedInUser} potluck = {this.state.samplePotluck} />
       </View>
     );
   }
