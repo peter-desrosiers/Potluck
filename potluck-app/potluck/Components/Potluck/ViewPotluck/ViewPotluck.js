@@ -16,6 +16,8 @@ import PropTypes from 'prop-types';
 import PotluckProgressItemYN from './PotluckProgressItemYN';
 import PersonalProgress from './PersonalProgress';
 import AddMoney from '../AddMoney/AddMoney';
+import PotluckProgressItemPercentage from './PotluckProgressItemPercentage';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default class ViewPotluck extends Component<Props> {
 
@@ -23,9 +25,20 @@ export default class ViewPotluck extends Component<Props> {
     isGroupPotluck: false
   };
 
+
+
   addMoney(newAmount, userID){
     this.props.addMoney(newAmount,userID)
   }
+
+  constructor(props){
+    super(props);
+    this.state = {
+      numberCompleted: 0
+    }
+  }
+
+
 
   render() {
     let isGroupPotluck = this.props.potluck.isGroupPotluck;
@@ -37,6 +50,8 @@ export default class ViewPotluck extends Component<Props> {
     let potluckName = this.props.potluck.potluckName;
     let potluckDescription = this.props.potluck.potluckDescription;
     let userID = this.props.user.accountID;
+    let groupSize = members.length;
+    let numberOfUsers = this.props.potluck.numberOfUsers
 
     let progressItems;
     let progressComponent;
@@ -51,11 +66,11 @@ export default class ViewPotluck extends Component<Props> {
 
 
     if(isGroupPotluck){
-      if(showPercentage){
+      if(!showPercentage){
         progressItems = members.map(member=>{
 
           if(userID!=member.accountID){
-            return(<PotluckProgressItemYN  isUser={false}member={member} key={member.accountID} pricePerPerson={pricePerPerson}/>)
+            return(<PotluckProgressItemYN isUser={false}member={member} key={member.accountID} pricePerPerson={pricePerPerson}/>)
           }else{
             member.name = "You"
             progressYouComponent = <PotluckProgressItemYN isUser={true}  member={member} key={member.accountID} pricePerPerson={pricePerPerson}/>
@@ -70,9 +85,16 @@ export default class ViewPotluck extends Component<Props> {
 
 
       }else{
+        progressItems = members.map(member=>{
+
+          if(userID!=member.accountID){
+            return(<PotluckProgressItemPercentage   isUser={false}member={member} key={member.accountID} pricePerPerson={pricePerPerson}/>)
+          }
+
+        })
         progressComponent =
           <View style={styles.progress}>
-            <Text>Show Percentage Progress Screen</Text>
+          {progressItems}
           </View>
 
       }
@@ -86,16 +108,16 @@ export default class ViewPotluck extends Component<Props> {
 
     return(
         <View style = {styles.container}>
-        <ScrollView scrollEnabled={false} contentContainerStyle={styles.main}>
+        <KeyboardAwareScrollView contentContainerStyle={styles.main}>
           <Text style={styles.potluckName}>{potluckName}</Text>
           <Text style={styles.potluckDescription}>{potluckDescription}</Text>
 
           {progressComponent}
-          <PersonalProgress userPotluckInfo={userPotluckInfo} pricePerPerson={pricePerPerson}/>
+          <PersonalProgress   userPotluckInfo={userPotluckInfo} pricePerPerson={pricePerPerson}/>
           <View style ={styles.addMoney}>
             <AddMoney onAddMoney={this.addMoney.bind(this)} userID={userID}userPotluckInfo={userPotluckInfo} pricePerPerson={pricePerPerson}/>
           </View>
-          </ScrollView>
+          </KeyboardAwareScrollView>
 
         </View>
       );

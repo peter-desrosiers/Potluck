@@ -9,6 +9,7 @@
   "dependencies": {
     "react": "^16.2.0",
     "react-native": "0.52.0",
+    "react-native-keyboard-aware-scroll-view": "^0.4.4",
     "react-native-progress": "^3.4.0",
     "react-native-progress-bar-classic": "^1.2.1"
   },

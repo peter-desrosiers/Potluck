@@ -16,32 +16,32 @@ import {
 import ViewPotluck from './Components/Potluck/ViewPotluck/ViewPotluck';
 
 export default class potluck extends Component<Props> {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     let samplePotluck = {
       members :[
         {
           accountID: 0,
           name: "Brandon Cornel",
-          amount: "1499",
+          amount: 1499,
           isAdmin: true
         },
         {
           accountID: 1,
           name: "Matthew Gallagher",
-          amount: "2000",
+          amount: 2000,
           isAdmin: false
         },
         {
           accountID: 2,
           name: "Peter Desrosiers",
-          amount: "1500",
+          amount: 1500,
           isAdmin: false
         },
         {
           accountID: 3,
           name: "Dan Sweetman",
-          amount: "2000",
+          amount: 2000,
           isAdmin: false
         },
 
@@ -53,7 +53,8 @@ export default class potluck extends Component<Props> {
       showPercentage: true,
       pricePerPerson: 2000,
       dateDue: "2018-05-18",
-      adminID: 0
+      adminID: 0,
+      numberOfUsers: 4
 
 
     }
