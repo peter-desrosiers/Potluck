@@ -22,6 +22,10 @@ export default class ViewPotluck extends Component<Props> {
     isGroupPotluck: false
   };
 
+  addMoney(newAmount, userID){
+    this.props.addMoney(newAmount,userID)
+  }
+
   render() {
     let isGroupPotluck = this.props.potluck.isGroupPotluck;
     let showPercentage = this.props.potluck.showPercentage;
@@ -87,7 +91,7 @@ export default class ViewPotluck extends Component<Props> {
           {progressComponent}
           <PersonalProgress userPotluckInfo={userPotluckInfo} pricePerPerson={pricePerPerson}/>
           <View style ={styles.addMoney}>
-            <AddMoney  userPotluckInfo={userPotluckInfo} pricePerPerson={pricePerPerson}/>
+            <AddMoney onAddMoney={this.addMoney.bind(this)} userID={userID}userPotluckInfo={userPotluckInfo} pricePerPerson={pricePerPerson}/>
           </View>
         </View>
       );

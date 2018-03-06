@@ -23,56 +23,58 @@ export default class AddMoney extends Component<Props> {
   static defaultProps = {
   };
 
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
       newAmount: 0,
       amountAdded: 0,
-      amountNeeded: 0
     }
   }
 
   onChanged(value){
     this.setState({amountAdded: value});
-  }
-
-  componentDidUpdate(){
 
   }
 
   onSubmit(){
-    this.setState({
-      amountNeeded: this.props.pricePerPerson-Number.parseInt(this.props.userPotluckInfo.amount)
-    })
+    var amountNeeded = this.props.pricePerPerson-Number.parseInt(this.props.userPotluckInfo.amount)
     let totalAfterAdding = Number.parseInt(this.state.amountAdded)+Number.parseInt(this.props.userPotluckInfo.amount);
     if(totalAfterAdding>this.props.pricePerPerson){
       Alert.alert(
-        "Please enter an amount  less than or equal to " + this.state.amountNeeded
+        "Please enter an amount  less than or equal to " + amountNeeded
       )
 
     }else{
       this.setState({
-        newAmount: Number.parseInt(this.state.amountAdded)+Number.parseInt(this.props.userPotluckInfo.amount)
+        newAmount: (Number.parseInt(this.state.amountAdded)+Number.parseInt(this.props.userPotluckInfo.amount))
+      },   ()=>{this.props.onAddMoney(this.state.newAmount, this.props.userID)});
+      this.setState({
+        amountAdded: 0
       })
+      this.textInput.blur();
+
+
+
     }
   }
 
+
+
   render() {
-      var amountAdded = 0;
+      var defaultFieldValue = "$0";
 
       return (
         <View style = {styles.container}>
           <TextInput
   style={styles.textInput}
-  keyboardType = 'numeric' placeholder ="$20"
+  keyboardType = 'numeric' placeholder ={defaultFieldValue}
   onChangeText = {(value)=> this.onChanged(value)}
+  value={this.state.amountAdded}
+  ref={(input) => { this.textInput = input; }} />
   />
-<TouchableHighlight style = {{padding: 15}}onPress={() => this.onSubmit() }>
+<TouchableHighlight style = {{padding: 15}} onPress={() => this.onSubmit() }>
             <Text style={styles.addButton}>Add</Text>
           </TouchableHighlight>
-
-          <Text>{this.state.newAmount}</Text>
-
       </View>
         );
   }
@@ -104,5 +106,7 @@ const styles = StyleSheet.create({
 
 AddMoney.propTypes = {
   pricePerPerson: PropTypes.number,
-  member: PropTypes.object
+  member: PropTypes.object,
+  onAddMoney: PropTypes.func
+
 };

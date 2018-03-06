@@ -69,6 +69,31 @@ export default class App extends Component<Props> {
 
   }
 
+  findUserInGroup(userID){
+    for(var i = 0;i<this.state.samplePotluck.members.length;i++){
+      if(this.state.samplePotluck.members[i].accountID === userID){
+        return i;
+      }
+    }
+  }
+
+  handleAddMoney(newAmount, userID){
+    console.log(newAmount,userID)
+    var userIndexInPotluck = this.findUserInGroup(userID);
+    var newSamplePotluck = this.state.samplePotluck;
+    var members = newSamplePotluck.members;
+    var newData = members[userIndexInPotluck]
+    newData.amount = newAmount;
+    //Need to find a way to change it 
+    this.setState({
+      samplePotluck: newSamplePotluck
+    });
+
+
+  }
+
+
+
 
   render(){
   let platform = Platform.OS;
@@ -81,7 +106,7 @@ export default class App extends Component<Props> {
 
 
       <View  style={platformSpecificStyle}>
-        <ViewPotluck user = {this.state.sampleLoggedInUser} potluck = {this.state.samplePotluck} />
+        <ViewPotluck addMoney={this.handleAddMoney.bind(this)} user = {this.state.sampleLoggedInUser} potluck = {this.state.samplePotluck} />
       </View>
     );
   }
