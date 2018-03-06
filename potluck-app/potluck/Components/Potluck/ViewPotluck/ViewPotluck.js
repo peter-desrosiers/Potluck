@@ -8,6 +8,7 @@ import React, { Component } from 'react';
 import {
   Platform,
   StyleSheet,
+  ScrollView,
   Text,
   View
 } from 'react-native';
@@ -85,6 +86,7 @@ export default class ViewPotluck extends Component<Props> {
 
     return(
         <View style = {styles.container}>
+        <ScrollView scrollEnabled={false} contentContainerStyle={styles.main}>
           <Text style={styles.potluckName}>{potluckName}</Text>
           <Text style={styles.potluckDescription}>{potluckDescription}</Text>
 
@@ -93,6 +95,8 @@ export default class ViewPotluck extends Component<Props> {
           <View style ={styles.addMoney}>
             <AddMoney onAddMoney={this.addMoney.bind(this)} userID={userID}userPotluckInfo={userPotluckInfo} pricePerPerson={pricePerPerson}/>
           </View>
+          </ScrollView>
+
         </View>
       );
   }

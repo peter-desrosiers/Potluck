@@ -40,7 +40,7 @@ export default class PersonalProgress extends Component<Props> {
       return (
           <View style={styles.container}>
             <Text style={{fontWeight: 'bold', fontSize:20}}>Your Progress:</Text>
-            <Progress.Bar progress={amountProgress} width={300} />
+            <Progress.Bar progress={amountProgress} width={300}/>
             <Text style={{fontSize:15}}>{this.roundPercent(amountProgress*100,2)}%</Text>
             <Text style={styles.details}>You've saved <Text style={{fontWeight: 'bold'}}>${amount}</Text>. You need <Text style={{fontWeight: 'bold'}}>${amountLeft}</Text> to complete your goal.</Text>
 

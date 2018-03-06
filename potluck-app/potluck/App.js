@@ -15,7 +15,7 @@ import {
 
 import ViewPotluck from './Components/Potluck/ViewPotluck/ViewPotluck';
 
-export default class App extends Component<Props> {
+export default class potluck extends Component<Props> {
   constructor(){
     super();
     let samplePotluck = {
@@ -84,7 +84,7 @@ export default class App extends Component<Props> {
     var members = newSamplePotluck.members;
     var newData = members[userIndexInPotluck]
     newData.amount = newAmount;
-    //Need to find a way to change it 
+    //Need to find a way to change it
     this.setState({
       samplePotluck: newSamplePotluck
     });

@@ -9,6 +9,7 @@ import {
   Platform,
   StyleSheet,
   TouchableHighlight,
+  ScrollView,
   TextInput,
   Alert,
   Text,
@@ -66,16 +67,19 @@ export default class AddMoney extends Component<Props> {
 
       return (
         <View style = {styles.container}>
+
           <TextInput
   style={styles.textInput}
   keyboardType = 'numeric' placeholder ={defaultFieldValue}
   onChangeText = {(value)=> this.onChanged(value)}
   value={this.state.amountAdded}
-  ref={(input) => { this.textInput = input; }} />
+  ref={(input) => { this.textInput = input; }}
   />
+
 <TouchableHighlight style = {{padding: 15}} onPress={() => this.onSubmit() }>
             <Text style={styles.addButton}>Add</Text>
           </TouchableHighlight>
+
       </View>
         );
   }
