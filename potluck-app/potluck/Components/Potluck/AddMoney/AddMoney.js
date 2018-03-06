@@ -27,7 +27,7 @@ export default class AddMoney extends Component<Props> {
     super(props);
     this.state = {
       newAmount: 0,
-      amountAdded: 0,
+      amountAdded: '',
     }
   }
 
@@ -38,7 +38,8 @@ export default class AddMoney extends Component<Props> {
 
   onSubmit(){
     var amountNeeded = this.props.pricePerPerson-Number.parseInt(this.props.userPotluckInfo.amount)
-    let totalAfterAdding = Number.parseInt(this.state.amountAdded)+Number.parseInt(this.props.userPotluckInfo.amount);
+    var amountAdded = this.state.amountAdded?this.state.amountAdded:0
+    let totalAfterAdding = Number.parseInt(amountAdded)+Number.parseInt(this.props.userPotluckInfo.amount);
     if(totalAfterAdding>this.props.pricePerPerson){
       Alert.alert(
         "Please enter an amount  less than or equal to " + amountNeeded
@@ -46,10 +47,10 @@ export default class AddMoney extends Component<Props> {
 
     }else{
       this.setState({
-        newAmount: (Number.parseInt(this.state.amountAdded)+Number.parseInt(this.props.userPotluckInfo.amount))
+        newAmount: (Number.parseInt(amountAdded)+Number.parseInt(this.props.userPotluckInfo.amount))
       },   ()=>{this.props.onAddMoney(this.state.newAmount, this.props.userID)});
       this.setState({
-        amountAdded: 0
+        amountAdded: ''
       })
       this.textInput.blur();
 
