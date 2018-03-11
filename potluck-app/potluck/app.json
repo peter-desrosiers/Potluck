@@ -1,4 +1,13 @@
 {
   "name": "potluck",
-  "displayName": "potluck"
+  "displayName": "potluck",
+  "expo": {
+    "name": "potluck",
+    "slug": "potluck",
+    "sdkVersion": "25.0.0",
+    "privacy": "public",
+    "appKey": "potluck"
+
+
+  }
 }
