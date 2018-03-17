@@ -11,11 +11,12 @@ import {
   Text,
   View
 } from 'react-native';
+import { StackNavigator } from 'react-navigation';
 
 
-import ViewPotluck from './Components/Potluck/ViewPotluck/ViewPotluck';
+import ViewPotluck from '../Components/Potluck/ViewPotluck/ViewPotluck';
 
-export default class potluck extends Component<Props> {
+export default class PotluckDetailScreen extends Component<Props> {
   constructor(props){
     super(props);
     let samplePotluck = {
