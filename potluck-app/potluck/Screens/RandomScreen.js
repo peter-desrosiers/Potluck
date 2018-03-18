@@ -44,6 +44,23 @@ export default class RandomScreen extends Component<Props> {
       this.getPotluck(this.props.navigation.state.params.potluckID);
   }
 
+  updatePotluck(newPotluck){
+    potluckID = this.props.navigation.state.params.potluckID
+    fetch('http://localhost:5000/potlucks/potluckID/'+potluckID,{
+      body: JSON.stringify(newPotluck),
+      method: 'PUT',
+      headers: {
+      'content-type': 'application/json'
+      },
+    }
+  ).then(function(response){
+      if(response.ok){
+        console.log(response)
+      }
+    })
+
+  }
+
   componentDidMount(){
     this.getParams()
   }
@@ -54,7 +71,7 @@ export default class RandomScreen extends Component<Props> {
       members :[
         {
           accountID: 0,
-          name: "Sample User",
+          name: "",
           amount: 0,
           isAdmin: true
         }
@@ -82,25 +99,26 @@ export default class RandomScreen extends Component<Props> {
   }
 
   findUserInGroup(userID){
-    for(var i = 0;i<this.state.samplePotluck.members.length;i++){
-      if(this.state.samplePotluck.members[i].accountID === userID){
+    for(var i = 0;i<this.state.potluck.members.length;i++){
+      if(this.state.potluck.members[i].accountID === userID){
         return i;
       }
     }
   }
 
   handleAddMoney(newAmount, userID){
-    console.log(newAmount,userID)
     var userIndexInPotluck = this.findUserInGroup(userID);
-    var newSamplePotluck = this.state.samplePotluck;
-    var members = newSamplePotluck.members;
+    var newPotluck = this.state.potluck;
+    var members = newPotluck.members;
+
     var newData = members[userIndexInPotluck]
     newData.amount = newAmount;
     //Need to find a way to change it
     this.setState({
-      samplePotluck: newSamplePotluck
+      potluck: newPotluck
     });
 
+    this.updatePotluck(newPotluck)
 
   }
 

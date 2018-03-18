@@ -20,7 +20,7 @@ import PotluckStackNav from './PotluckStackNav'
 
 
   export default TabNavigator({
-    PotluckStackNav: { screen: PotluckStackNav },
+    Home: { screen: PotluckStackNav },
     Account: { screen: AccountInfoScreen}
   });
 

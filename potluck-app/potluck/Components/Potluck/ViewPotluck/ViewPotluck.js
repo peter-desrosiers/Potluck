@@ -114,7 +114,7 @@ export default class ViewPotluck extends Component<Props> {
           {progressComponent}
           <PersonalProgress   userPotluckInfo={userPotluckInfo} pricePerPerson={pricePerPerson}/>
           <View style ={styles.addMoney}>
-            <AddMoney onAddMoney={this.addMoney.bind(this)} userID={userID}userPotluckInfo={userPotluckInfo} pricePerPerson={pricePerPerson}/>
+            <AddMoney onAddMoney={this.addMoney.bind(this)} userID={userID} userPotluckInfo={userPotluckInfo} pricePerPerson={pricePerPerson}/>
           </View>
           </KeyboardAwareScrollView>
 
