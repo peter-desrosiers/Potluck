@@ -18,9 +18,13 @@ import { StackNavigator } from 'react-navigation';
 
 export default class HomeScreen extends Component<Props> {
 
+
+
+
+
   getPotlucks(){
     potlucks = []
-    fetch('http://localhost:5000/potlucks/0').then(function(response){
+    fetch('http://localhost:5000/potlucks/accountID/0').then(function(response){
       if(response.ok){
         return response.json();
       }
@@ -37,10 +41,15 @@ export default class HomeScreen extends Component<Props> {
 
   constructor(props){
     super(props)
+    let loggedInUser = {
+      accountID: 0,
+      name: "Brandon Cornel"
+    }
     potlucks = []
     this.getPotlucks = this.getPotlucks.bind(this)
     this.state={
-      potlucks
+      potlucks,
+      loggedInUser
     }
   }
 
@@ -54,7 +63,10 @@ export default class HomeScreen extends Component<Props> {
 
   changeScreen(id){
     console.log(id)
-    this.props.navigation.navigate('RandomScreen')
+    this.props.navigation.navigate('RandomScreen',{
+      potluckID: id,
+      loggedInUser: this.state.loggedInUser
+    })
   }
 
 
@@ -65,17 +77,14 @@ export default class HomeScreen extends Component<Props> {
 
 
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
+      <View>
+          <View style={{alignItems: 'center', justifyContent: 'center' }}>
           {this.state.potlucks.map((potluck)=> {
             return <TouchableHighlight key={potluck._id.$oid} style = {{padding: 15}} onPress={()=>this.changeScreen(potluck._id.$oid)}>
-              <Text >{potluck.potluckName}</Text>
+              <Text style={{fontSize: 15}}>{potluck.potluckName}</Text>
               </TouchableHighlight>
           })}
-        <Button
-          title="Go to Details"
-          onPress={() => this.props.navigation.navigate('RandomScreen')}
-        />
+          </View>
       </View>
     );
   }

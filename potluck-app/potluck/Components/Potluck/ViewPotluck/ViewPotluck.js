@@ -60,7 +60,7 @@ export default class ViewPotluck extends Component<Props> {
     let userPotluckInfo;
     members.map(member=>{
       if(member.accountID==userID)
-      userPotluckInfo = member;
+        userPotluckInfo = member;
     })
 
 
@@ -86,7 +86,6 @@ export default class ViewPotluck extends Component<Props> {
 
       }else{
         progressItems = members.map(member=>{
-
           if(userID!=member.accountID){
             return(<PotluckProgressItemPercentage   isUser={false}member={member} key={member.accountID} pricePerPerson={pricePerPerson}/>)
           }
@@ -99,11 +98,11 @@ export default class ViewPotluck extends Component<Props> {
 
       }
     }else{
-      progressComponent = [
+      progressComponent =
         <View style={styles.progress}>
           <Text>Personal Progress Screen</Text>
         </View>
-      ]
+
     }
 
     return(

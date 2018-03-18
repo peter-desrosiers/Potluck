@@ -26,11 +26,7 @@ export default class AccountInfoScreen extends Component<Props> {
 
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
-        <Button
-          title="Go to Details"
-          onPress={() => this.props.navigation.navigate('Details')}
-        />
+        <Text>Account Info Screen</Text>
       </View>
     );
   }
