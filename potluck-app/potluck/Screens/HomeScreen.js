@@ -61,9 +61,9 @@ export default class HomeScreen extends Component<Props> {
     this.getPotlucks()
   }
 
-  changeScreen(id){
+  changeScreenToPotluck(id){
     console.log(id)
-    this.props.navigation.navigate('RandomScreen',{
+    this.props.navigation.navigate('PotluckDetailScreen',{
       potluckID: id,
       loggedInUser: this.state.loggedInUser
     })
@@ -79,8 +79,11 @@ export default class HomeScreen extends Component<Props> {
     return (
       <View>
           <View style={{alignItems: 'center', justifyContent: 'center' }}>
+            <TouchableHighlight style = {{padding: 15}} onPress={() => this.props.navigation.navigate('AddPotluckScreen')}>
+              <Text style={{fontSize: 15, color: '#0000FF'}}>Add Potluck</Text>
+            </TouchableHighlight>
           {this.state.potlucks.map((potluck)=> {
-            return <TouchableHighlight key={potluck._id.$oid} style = {{padding: 15}} onPress={()=>this.changeScreen(potluck._id.$oid)}>
+            return <TouchableHighlight key={potluck._id.$oid} style = {{padding: 15}} onPress={()=>this.changeScreenToPotluck(potluck._id.$oid)}>
               <Text style={{fontSize: 15}}>{potluck.potluckName}</Text>
               </TouchableHighlight>
           })}

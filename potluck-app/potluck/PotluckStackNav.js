@@ -16,16 +16,20 @@ import { StackNavigator } from 'react-navigation';
 
 
 import HomeScreen from './Screens/HomeScreen'
-import RandomScreen from './Screens/RandomScreen'
+import PotluckDetailScreen from './Screens/PotluckDetailScreen'
+import AddPotluckScreen from './Screens/AddPotluckScreen'
 
 const RootStack = StackNavigator(
   {
     HomeScreen: {
       screen: HomeScreen,
     },
-    RandomScreen: {
-      screen: RandomScreen,
+    PotluckDetailScreen: {
+      screen: PotluckDetailScreen,
     },
+    AddPotluckScreen:{
+      screen: AddPotluckScreen
+    }
   },
   {
     initialRouteName: 'HomeScreen',

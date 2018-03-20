@@ -1,8 +1,8 @@
 {
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 9358,
-  "expoServerNgrokUrl": "https://7e-wng.brandoncornel.potluck.exp.direct",
-  "packagerNgrokUrl": "https://packager.7e-wng.brandoncornel.potluck.exp.direct",
-  "ngrokPid": 9377
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }
