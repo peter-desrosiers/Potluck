@@ -61,9 +61,10 @@ export default class AddMoney extends Component<Props> {
   }
 
 
-
+//onPress={() => this.onSubmit() }
   render() {
       var defaultFieldValue = "$0";
+      var amountNeeded = this.props.pricePerPerson-Number.parseInt(this.props.userPotluckInfo.amount)
 
       return (
         <View style = {styles.container}>
@@ -75,6 +76,7 @@ export default class AddMoney extends Component<Props> {
   value={this.state.amountAdded}
   ref={(input) => { this.textInput = input; }}
   />
+
 
 <TouchableHighlight style = {{padding: 15}} onPress={() => this.onSubmit() }>
             <Text style={styles.addButton}>Add</Text>
