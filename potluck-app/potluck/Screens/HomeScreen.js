@@ -14,10 +14,10 @@ import {
   View
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 export default class HomeScreen extends Component<Props> {
-
 
 
 
@@ -78,8 +78,11 @@ export default class HomeScreen extends Component<Props> {
 
     return (
       <View>
+        <KeyboardAwareScrollView>
           <View style={{alignItems: 'center', justifyContent: 'center' }}>
-            <TouchableHighlight style = {{padding: 15}} onPress={() => this.props.navigation.navigate('AddPotluckScreen')}>
+            <TouchableHighlight style = {{padding: 15}} onPress={() => this.props.navigation.navigate('AddPotluckScreen',{
+              loggedInUser: this.state.loggedInUser
+            })}>
               <Text style={{fontSize: 15, color: '#0000FF'}}>Add Potluck</Text>
             </TouchableHighlight>
           {this.state.potlucks.map((potluck)=> {
@@ -88,6 +91,7 @@ export default class HomeScreen extends Component<Props> {
               </TouchableHighlight>
           })}
           </View>
+        </KeyboardAwareScrollView>
       </View>
     );
   }

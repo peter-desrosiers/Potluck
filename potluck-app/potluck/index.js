@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
-import potluck from './AppNav';
+import App from './app';
 
-AppRegistry.registerComponent('potluck', () => potluck);
+AppRegistry.registerComponent('potluck', () => App);
