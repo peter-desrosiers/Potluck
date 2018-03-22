@@ -5,47 +5,55 @@
  */
 
 import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  ScrollView,
-  Text,
-  View
-} from 'react-native';
+import {FlatList, StyleSheet, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
-import AddPayment from '../AddPayment/AddPayment';
+import AddPayment from './Components/Potluck/AddPayment/AddPayment';
 
-export default class ViewPotluck extends Component<Props> {
+export default class ViewPaymentMethods extends Component<Props> {
 
 
-  addPayment(newPayment, userID){
-    this.props.addPayment(newPayment,userID)
-  }
+    viewPayments(){
+      for (var i = 0; i < this.state.samplePayments.payments.length; i++){
+      <View>
+      <Text>  this.state.samplePayments.payments.name </Text>
+      <Text>  this.state.samplePayments.payments.cardNumber </Text>
+      <Text>  this.state.samplePayments.payments.month /</Text>
+      <Text>this.state.samplePayments.payments.year </Text>
+      </View>
+      }
+    }
+
 
   render() {
+    let samplePayments = {
+      payments:[
+        {
+          name: "Peter Desrosiers",
+          cardNumber: 1234567812345678,
+          month: 11,
+          year: 19
+        },
+        {
+          name: "Peter Desrosiers",
+          cardNumber: 8765432187654321,
+          month: 12,
+          year: 22
+        },
+        {
+          name: "Peter Desrosiers",
+          cardNumber: 9999111122223333,
+          month: 8,
+          year: 20
+        },
+      ],
+    }
 
-    let userID = this.props.user.accountID;
-    let userPotluckInfo;
-    let creditCardNumber;
-    let nameOnCard;
-    let experationMonth;
-    let experationYear;
-
-    //Get the member
-    members.map(member=>{
-      if(member.accountID==userID)
-      userPotluckInfo = member;
-    })
-
-    //Return the cards the member has
-        return(
-            <View style = {styles.container}>
-            //For ever credit card the member has
-            //Display the last four digets and the  experation month/year
-            
-            </View>
-          );
-      }
+    return (
+      <View style={styles.container}>
+        viewPayments();
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -69,7 +77,3 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   }
 });
-
-ViewPotluck.propTypes = {
-  isGroupPotluck: PropTypes.bool
-};

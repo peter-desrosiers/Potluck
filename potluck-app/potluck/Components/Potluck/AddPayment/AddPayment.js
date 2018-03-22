@@ -5,40 +5,60 @@
  */
 
 import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  TouchableHighlight,
-  ScrollView,
-  TextInput,
-  Alert,
-  Text,
-  View
-} from 'react-native';
+import {  View, StyleSheet, Button} from 'react-native';
 import PropTypes from 'prop-types';
+import t from 'tcomb-form-native';
+
+
+const Form = t.form.Form;
+
+var ExperationMonth = t.enums({
+1: '01',
+2: '02',
+3: '03',
+4: '04',
+5: '05',
+6: '06',
+7: '07',
+8: '08',
+9: '09',
+10: '10',
+11: '11',
+12: '12'
+});
+
+var ExperationYear = t.enums({
+18: '2018',
+19: '2019',
+20: '2020',
+21: '2021',
+22: '2022'
+});
+
+const NewPayment = t.struct({
+  nameOnCard : t.String,
+  creditCardNumber : t.Number,
+  experationMonth : ExperationMonth,
+  experationYear : ExperationYear
+});
+
 
 export default class AddPayment extends Component<Props> {
 
-  constructor(props){
-    super(props);
-    this.state = {}
+  onChange(value){
+    t.setState({paymentInfo: value});
   }
 
-  static defaultProps = {
-    Month: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-    Year:  [18,19,20,21,22,23,24]
-  };
-
-  handleSubmit(e){
-    if(this.refs.creditCardNumber.length != 16){
+  handleSubmit(){
+    if(this.state.paymentInfo.creditCardNumber.toString().length != 16){
       alert('Invalid Credit Card number.');
     }
     else{
       this.setState({newPayment:{
-        creditCardNumber: this.refs.creditCardNumber.value,
-        nameOnCard: this.refs.nameOnCard,
-        experationMonth: this.refs.experationMonth,
-        experationYear: this.refs.experationYear}},
+        nameOnCard: this.state.paymentInfoData.nameOnCard,
+        creditCardNumber: this.state.paymentInfoData.creditCardNumber,
+        experationMonth: this.state.paymentInfoData.experationMonth,
+        experationYear: this.state.paymentInfoData.experationYear}},
         function(){
           this.props.AddPayment.state.newPayment;
         });
@@ -47,44 +67,30 @@ export default class AddPayment extends Component<Props> {
   }
 
 
+  constructor(props){
+    super(props);
+    paymentInfoData = {nameOnCard: '', creditCardNumber: '', experationMonth : '', experationYear: ''},
+    this.state = { paymentInfo : paymentInfoData};
+  }
+
   render() {
-
-    let monthOptions = this.props.Month.map(experationMonth => {
-      return <option key={experationMonth}
-      value="Month">{experationMonth}</option>
-    })
-
-    let yearOptions = this.props.Year.map(experationYear => {
-      return <option key={experationYear}
-      value="Year">{experationYear}</option>
-    })
     return (
-      <div>
-      <h3> Add Payment </h3>
-      <form onSubmit = {this.handleSubmit}>
-        <div>
-          <label> Name on Card </ label><br />
-          <input type ="text" ref="nameOnCard" />
-        </div>
-        <div>
-          <label> Card Number </label><br />
-          <input type ="text" ref="nameOnCard" />
-        </div>
-        <div>
-          <label>Month  </label><br />
-          <select ref="experationMonth">
-            {monthOptions}
-          </select>
-        </div>
-        <div>
-          <label>Year  </label><br />
-          <select ref="experationYear">
-            {yearOptions}
-          </select>
-        </div>
-        <input type="submit" value="Submit" />
-      </form>
-      </div>
+      <View style={styles.container}>
+        <Form type={NewPayment} />
+        <Button
+          title="Add Card"
+          onPress={this.handleSubmit}
+          />
+      </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    marginTop: 50,
+    padding: 20,
+    backgroundColor: '#ffffff',
+  },
+});
