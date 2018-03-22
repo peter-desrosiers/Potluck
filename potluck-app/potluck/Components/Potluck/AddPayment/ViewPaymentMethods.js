@@ -7,26 +7,13 @@
 import React, { Component } from 'react';
 import {FlatList, StyleSheet, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
-import AddPayment from './Components/Potluck/AddPayment/AddPayment';
+import AddPayment from './AddPayment';
 
 export default class ViewPaymentMethods extends Component<Props> {
 
 
-    viewPayments(){
-      for (var i = 0; i < this.state.samplePayments.payments.length; i++){
-      <View>
-      <Text>  this.state.samplePayments.payments.name </Text>
-      <Text>  this.state.samplePayments.payments.cardNumber </Text>
-      <Text>  this.state.samplePayments.payments.month /</Text>
-      <Text>this.state.samplePayments.payments.year </Text>
-      </View>
-      }
-    }
-
-
   render() {
-    let samplePayments = {
-      payments:[
+    var samplePayments = [
         {
           name: "Peter Desrosiers",
           cardNumber: 1234567812345678,
@@ -35,22 +22,16 @@ export default class ViewPaymentMethods extends Component<Props> {
         },
         {
           name: "Peter Desrosiers",
-          cardNumber: 8765432187654321,
-          month: 12,
+          cardNumber: 8765432112345678,
+          month: 5,
           year: 22
         },
-        {
-          name: "Peter Desrosiers",
-          cardNumber: 9999111122223333,
-          month: 8,
-          year: 20
-        },
-      ],
-    }
+      ]
 
     return (
       <View style={styles.container}>
-        viewPayments();
+        {samplePayments.map(s => <Text key={s.name, s.cardNumber, s.month, s.year}>
+          {s.name} {s.cardNumber} {s.month}/{s.year}</Text>)}
       </View>
     );
   }
