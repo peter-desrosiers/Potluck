@@ -1,0 +1,4 @@
+Get all Potlucks:
+http://localhost:5000/potlucks
+/potlucks/accountID/0<accountID>
+/potlucks/potluckID/<potluckID>
