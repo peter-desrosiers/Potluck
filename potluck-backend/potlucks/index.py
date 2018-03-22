@@ -5,7 +5,6 @@ from flask_environments import Environments
 from bson.objectid import ObjectId
 
 app = Flask("potluck")
-app.config['MONGO_URI']='mongodb://intbrandon:naruto@ds217349.mlab.com:17349/potluck'
 
 mongo = PyMongo(app)
 
