@@ -14,6 +14,7 @@ import {
 
 
 import ViewPotluck from './Components/Potluck/ViewPotluck/ViewPotluck';
+import Dashboard from './Components/Potluck/Dashboard/Dashboard';
 
 export default class potluck extends Component<Props> {
   constructor(){
@@ -103,11 +104,7 @@ export default class potluck extends Component<Props> {
 
 
     return (
-
-
-      <View  style={platformSpecificStyle}>
-        <ViewPotluck addMoney={this.handleAddMoney.bind(this)} user = {this.state.sampleLoggedInUser} potluck = {this.state.samplePotluck} />
-      </View>
+        <Dashboard/>
     );
   }
 }
