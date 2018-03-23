@@ -61,6 +61,22 @@ export default class PotluckDetailScreen extends Component<Props> {
 
   }
 
+  deletePotluck(potluck){
+    potluckID = this.props.navigation.state.params.potluckID
+    fetch('http://localhost:5000/potlucks/potluckID/'+potluckID,{
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json'
+      },
+    }).then(function(response){
+      if(response.ok){
+        console.log(response)
+      } else {
+        console.log("Error: Could not delete PotLuck.")
+      }
+    })
+  }
+
   componentDidMount(){
     this.getParams()
   }
