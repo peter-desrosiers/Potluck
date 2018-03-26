@@ -57,18 +57,84 @@ export default class AddPotluckGroup extends Component<Props> {
   constructor(props){
     super(props);
     this.state = {
-      isHiddenGroupPotluckFields: true,
-      randomText: "FALSE"
+      members:[{
+        username: '',
+        name: '',
+        amount: 0,
+        isAdmin: false
+
+      }]
     }
   }
 
   onPress(){
+    loggedInUserMemberInfo = {
+        username: this.props.loggedInUser.username,
+        name: this.props.loggedInUser.name,
+        amount: 0,
+        isAdmin: true
+      }
+
+    memberList = this.state.members.concat(loggedInUserMemberInfo)
     var value = this.refs.form.getValue();
     if (value) {
-      console.log(value);
-      console.log("Logged in User:" + this.props.loggedInUser.name)
+      newPotluck = {
+		"members": memberList,
+		"potluckName": value.potluckName,
+		"potluckDescription": value.potluckDescription,
+		"isGroupPotluck": true,
+		"showPercentage": value.showPercentage,
+		"pricePerPerson": value.pricePerPerson,
+		"dateDue": value.dateDue,
+		"adminUsername": this.props.loggedInUser.username,
+		"numberOfUsers": 1
       // clear all fields after submit
     }
+    }
+  }
+
+  handleDeleteMember(memberID){
+    this.setState({
+      members: this.state.members.filter((s, sidx) => memberID !== sidx)
+    });
+  }
+
+  getMemberInfo(){
+
+  }
+
+  handleMemberChangeUsername(text,idx) {
+    const newMembers = this.state.members.map((member, midx) => {
+      if (idx !== midx) return member;
+      return { ...member, username: text };
+    });
+
+    this.setState({ members: newMembers });
+  }
+
+  handleMemberChangeName(text,idx) {
+    const newMembers = this.state.members.map((member, midx) => {
+      if (idx !== midx) return member;
+      return { ...member, name: text };
+    });
+
+    this.setState({ members: newMembers });
+  }
+
+
+  handleAddMember(){
+    this.setState({
+      members: this.state.members.concat([{
+        username: '',
+        name: '',
+        amount: 0,
+        isAdmin: false
+      }])
+    });
+  }
+
+  onFormChange(value) {
+    this.setState({value});
   }
 
   addPotluck(newPotluck){
@@ -87,16 +153,33 @@ export default class AddPotluckGroup extends Component<Props> {
 
   }
 
+
+
   render() {
 
       return (
         <View style = {styles.container}>
         <KeyboardAwareScrollView contentContainerStyle={styles.main}>
         <Form
+          value={this.state.value}
         ref="form"
         type={Potluck}
         options = {options}
+        onChange={(text) => this.onFormChange(text)}
         />
+      <Text>Members:</Text>
+      {this.state.members.map((member, idx)=>(
+        <View key ={idx}>
+        <TextInput type="text" placeholder={`Member's #${idx + 1} username`} onChangeText={ (text) => this.handleMemberChangeUsername(text,idx)}/>
+          <TextInput type="text" placeholder={`Member's #${idx + 1} name`} onChangeText={ (text) => this.handleMemberChangeName(text,idx)}/>
+          <TouchableHighlight onPress={this.handleDeleteMember.bind(this, idx)} underlayColor='#99d9f4'>
+            <Text style={styles.buttonText}>-</Text>
+          </TouchableHighlight>
+        </View>
+          ))}
+          <TouchableHighlight onPress={this.handleAddMember.bind(this)} underlayColor='#99d9f4'>
+            <Text style={styles.buttonText}>Add Member</Text>
+          </TouchableHighlight>
         <View style={styles.createPotluckButton}>
         <TouchableHighlight onPress={this.onPress.bind(this)} underlayColor='#99d9f4'>
           <Text style={styles.buttonText}>Create Potluck</Text>
@@ -122,7 +205,8 @@ const styles = StyleSheet.create({
   },
   createPotluckButton:{
     alignItems: 'center',
-    padding: 5,
+    padding: 10,
+    marginTop:10,
     backgroundColor:'#00FF00'
   },
   textInput: {

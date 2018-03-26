@@ -61,12 +61,10 @@ export default class AddPotluckPersonal extends Component<Props> {
   onPress(){
     var value = this.refs.form.getValue();
     if (value) {
-      console.log(value);
-      console.log("Logged in User:" + this.props.loggedInUser.name)
       newPotluck = {
 		"members": [
         {
-				"accountID": this.props.loggedInUser.accountID,
+				"username": this.props.loggedInUser.username,
 				"name": this.props.loggedInUser.name,
 				"amount": 0,
 				"isAdmin": true
@@ -78,7 +76,7 @@ export default class AddPotluckPersonal extends Component<Props> {
 		"showPercentage": false,
 		"pricePerPerson": value.pricePerPerson,
 		"dateDue": value.dateDue,
-		"adminID": this.props.loggedInUser.accountID,
+		"adminUsername": this.props.loggedInUser.username,
 		"numberOfUsers": 1
       // clear all fields after submit
     }

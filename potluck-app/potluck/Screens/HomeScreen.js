@@ -24,7 +24,7 @@ export default class HomeScreen extends Component<Props> {
 
   getPotlucks(){
     potlucks = []
-    fetch('http://localhost:5000/potlucks/accountID/0').then(function(response){
+    fetch('http://localhost:5000/potlucks/username/'+this.state.loggedInUser.username).then(function(response){
       if(response.ok){
         return response.json();
       }
@@ -42,7 +42,7 @@ export default class HomeScreen extends Component<Props> {
   constructor(props){
     super(props)
     let loggedInUser = {
-      accountID: 0,
+      username: 'intbrandon',
       name: "Brandon Cornel"
     }
     potlucks = []

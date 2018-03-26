@@ -32,7 +32,8 @@ export default class PersonalProgress extends Component<Props> {
 
   render() {
     let memberName = this.props.userPotluckInfo.name;
-    let accountID = this.props.userPotluckInfo.accountID;
+    let username = this.props.userPotluckInfo.username;
+    console.log(username)
     let amount = this.props.userPotluckInfo.amount;
     let pricePerPerson = this.props.pricePerPerson;
     var amountProgress = this.calculateProgress(amount,pricePerPerson);

@@ -49,7 +49,7 @@ export default class AddMoney extends Component<Props> {
     }else{
       this.setState({
         newAmount: (Number.parseInt(amountAdded)+Number.parseInt(this.props.userPotluckInfo.amount))
-      },   ()=>{this.props.onAddMoney(this.state.newAmount, this.props.userID)});
+      },   ()=>{this.props.onAddMoney(this.state.newAmount, this.props.username)});
       this.setState({
         amountAdded: ''
       })
