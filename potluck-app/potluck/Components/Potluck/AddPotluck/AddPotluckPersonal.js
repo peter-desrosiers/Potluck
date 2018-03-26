@@ -12,6 +12,7 @@ import {
 import PropTypes from 'prop-types';
 import t from 'tcomb-form-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import moment from 'moment';
 
 const Potluck = t.struct({
   potluckName: t.String,
@@ -19,6 +20,10 @@ const Potluck = t.struct({
   pricePerPerson: t.Number,
   dateDue: t.Date
 });
+
+let myFormatFunction = (format,date) =>{
+            return moment(date).format(format);
+        }
 
 const options = {
   fields: {
@@ -32,7 +37,11 @@ const options = {
       label: 'How much is the goal?'
     },
     dateDue:{
-      label: 'Due Date'
+      label: 'Due Date',
+      mode: 'date',
+      config:{
+                format:(date) => myFormatFunction("DD MMM YYYY",date)
+    }
     }
   },
 };
@@ -75,7 +84,7 @@ export default class AddPotluckPersonal extends Component<Props> {
 		"isGroupPotluck": false,
 		"showPercentage": false,
 		"pricePerPerson": value.pricePerPerson,
-		"dateDue": value.dateDue,
+    "dateDue": moment(value.dateDue).format("YYYY-MM-DD"),
 		"adminUsername": this.props.loggedInUser.username,
 		"numberOfUsers": 1
       // clear all fields after submit
@@ -106,6 +115,7 @@ export default class AddPotluckPersonal extends Component<Props> {
       return (
         <View style = {styles.container}>
         <KeyboardAwareScrollView contentContainerStyle={styles.main}>
+          <Text style={styles.screenTitle}>Add a Personal Potluck</Text>
         <Form
         ref="form"
         type={Potluck}
@@ -124,20 +134,11 @@ export default class AddPotluckPersonal extends Component<Props> {
 }
 
 const styles = StyleSheet.create({
-  name:{
-    fontWeight: 'bold'
-
-  },
   container:{
     alignItems: 'center',
     paddingBottom:10,
     paddingTop:10
 
-  },
-  addButton:{
-    fontSize: 20,
-    padding: 5,
-    backgroundColor:'#00FF00'
   },
   textInput: {
     borderColor: 'black',
@@ -149,6 +150,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 5,
     backgroundColor:'#00FF00'
+  },
+  screenTitle:{
+    alignItems: 'center',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    padding: 8,
+    fontSize: 20,
   }
 });
 

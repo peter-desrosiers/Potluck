@@ -12,6 +12,7 @@ import {
 import PropTypes from 'prop-types';
 import t from 'tcomb-form-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import moment from 'moment';
 
 const Potluck = t.struct({
   potluckName: t.String,
@@ -20,6 +21,10 @@ const Potluck = t.struct({
   pricePerPerson: t.Number,
   dateDue: t.Date
 });
+
+let myFormatFunction = (format,date) =>{
+            return moment(date).format(format);
+        }
 
 const options = {
   fields: {
@@ -36,7 +41,11 @@ const options = {
       label: 'How much is each person paying?'
     },
     dateDue:{
-      label: 'Due Date'
+      label: 'Due Date',
+      mode: 'date',
+      config:{
+                format:(date) => myFormatFunction("DD MMM YYYY",date)
+    }
     }
   },
 };
@@ -48,11 +57,6 @@ export default class AddPotluckGroup extends Component<Props> {
 
   static defaultProps = {
   };
-
-
-  printSomething(){
-    console.log("YOO")
-  }
 
   constructor(props){
     super(props);
@@ -67,6 +71,21 @@ export default class AddPotluckGroup extends Component<Props> {
     }
   }
 
+  validateMemberForm(memberList){
+    for(var i = 0;i<memberList.length;i++){
+      if(memberList[i].username.length==0 || memberList[i].name.length==0){
+        Alert.alert(
+          'Missing value for member',
+          'Please add name and username for member',
+          {cancelable: true}
+        )
+        return false;
+      }
+    }
+    return true;
+
+  }
+
   onPress(){
     loggedInUserMemberInfo = {
         username: this.props.loggedInUser.username,
@@ -77,7 +96,7 @@ export default class AddPotluckGroup extends Component<Props> {
 
     memberList = this.state.members.concat(loggedInUserMemberInfo)
     var value = this.refs.form.getValue();
-    if (value) {
+    if (value && this.validateMemberForm(memberList)) {
       newPotluck = {
 		"members": memberList,
 		"potluckName": value.potluckName,
@@ -85,11 +104,11 @@ export default class AddPotluckGroup extends Component<Props> {
 		"isGroupPotluck": true,
 		"showPercentage": value.showPercentage,
 		"pricePerPerson": value.pricePerPerson,
-		"dateDue": value.dateDue,
+		"dateDue": moment(value.dateDue).format("YYYY-MM-DD"),
 		"adminUsername": this.props.loggedInUser.username,
-		"numberOfUsers": 1
-      // clear all fields after submit
+		"numberOfUsers": memberList.length
     }
+    this.addPotluck(newPotluck)
     }
   }
 
@@ -97,10 +116,6 @@ export default class AddPotluckGroup extends Component<Props> {
     this.setState({
       members: this.state.members.filter((s, sidx) => memberID !== sidx)
     });
-  }
-
-  getMemberInfo(){
-
   }
 
   handleMemberChangeUsername(text,idx) {
@@ -120,6 +135,8 @@ export default class AddPotluckGroup extends Component<Props> {
 
     this.setState({ members: newMembers });
   }
+
+
 
 
   handleAddMember(){
@@ -145,11 +162,12 @@ export default class AddPotluckGroup extends Component<Props> {
       'content-type': 'application/json'
       },
     }
-  ).then(function(response){
+  ).then((response) => {
       if(response.ok){
-        console.log(response)
+        this.props.goBackToHome()
       }
     })
+
 
   }
 
@@ -160,6 +178,7 @@ export default class AddPotluckGroup extends Component<Props> {
       return (
         <View style = {styles.container}>
         <KeyboardAwareScrollView contentContainerStyle={styles.main}>
+          <Text style={styles.screenTitle}>Add a Group Potluck</Text>
         <Form
           value={this.state.value}
         ref="form"
@@ -193,10 +212,6 @@ export default class AddPotluckGroup extends Component<Props> {
 }
 
 const styles = StyleSheet.create({
-  name:{
-    fontWeight: 'bold'
-
-  },
   container:{
     alignItems: 'center',
     paddingBottom:10,
@@ -205,8 +220,7 @@ const styles = StyleSheet.create({
   },
   createPotluckButton:{
     alignItems: 'center',
-    padding: 10,
-    marginTop:10,
+    padding: 5,
     backgroundColor:'#00FF00'
   },
   textInput: {
@@ -214,7 +228,15 @@ const styles = StyleSheet.create({
     width: 100,
     height:30,
     borderBottomWidth: 3
+  },
+  screenTitle:{
+    alignItems: 'center',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    padding: 8,
+    fontSize: 20,
   }
+
 });
 
 AddPotluckGroup.propTypes = {
