@@ -30,6 +30,8 @@ export default class PotluckDetailScreen extends Component<Props> {
         potluckName: response[0].potluckName,
         potluck: response[0]
       },function(){
+        console.log(this.state.potluck)
+
       })
 
 
@@ -53,6 +55,7 @@ export default class PotluckDetailScreen extends Component<Props> {
     }
   ).then(function(response){
       if(response.ok){
+        console.log(response)
       }
     })
 
@@ -83,7 +86,7 @@ export default class PotluckDetailScreen extends Component<Props> {
     let samplePotluck = {
       members :[
         {
-          username: "",
+          accountID: 0,
           name: "",
           amount: 0,
           isAdmin: true
@@ -97,7 +100,7 @@ export default class PotluckDetailScreen extends Component<Props> {
       showPercentage: true,
       pricePerPerson: 2000,
       dateDue: "",
-      adminUsername: "intbrandon",
+      adminID: 0,
       numberOfUsers: 4
 
 
@@ -111,16 +114,16 @@ export default class PotluckDetailScreen extends Component<Props> {
 
   }
 
-  findUserInGroup(username){
+  findUserInGroup(userID){
     for(var i = 0;i<this.state.potluck.members.length;i++){
-      if(this.state.potluck.members[i].username === username){
+      if(this.state.potluck.members[i].accountID === userID){
         return i;
       }
     }
   }
 
-  handleAddMoney(newAmount, username){
-    var userIndexInPotluck = this.findUserInGroup(username);
+  handleAddMoney(newAmount, userID){
+    var userIndexInPotluck = this.findUserInGroup(userID);
     var newPotluck = this.state.potluck;
     var members = newPotluck.members;
 
@@ -145,6 +148,11 @@ export default class PotluckDetailScreen extends Component<Props> {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <ViewPotluck addMoney={this.handleAddMoney.bind(this)} user = {loggedInUser} potluck = {this.state.potluck} />
+        <Button 
+          onPress={() => {
+          Alert.alert('you tapped the button!');
+        }}
+        title = "Delete"/>
       </View>
     );
   }
