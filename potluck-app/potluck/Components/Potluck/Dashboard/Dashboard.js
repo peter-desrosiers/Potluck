@@ -22,25 +22,27 @@ import {
 export default class Dashboard extends Component<{}> {
   render() {
     return (
-      <ScrollView contentContainerStyle={styles.stage}>
-        <TableView>
-          <Section>
-            <Cell cellStyle="Basic" title="Basic" />
-            <Cell cellStyle="RightDetail" title="RightDetail" detail="Detail" />
-            <Cell
-              cellStyle="Subtitle"
-              title="Subtitle"
-              detail="No linebreakkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk"
-            />
-            <Cell
-              cellStyle="Basic"
-              title="Pressable w/ accessory"
-              accessory="DisclosureIndicator"
-              onPress={() => console.log('Heyho!')}
-            />
-          </Section>
-        </TableView>
-      </ScrollView>
+      <View style = {styles.container}>
+        <ScrollView contentContainerStyle={styles.stage}>
+          <TableView>
+            <Section>
+              <Cell cellStyle="Basic" title="Basic" />
+              <Cell cellStyle="RightDetail" title="RightDetail" detail="Detail" />
+              <Cell
+                cellStyle="Subtitle"
+                title="Subtitle"
+                detail="No linebreakkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk"
+              />
+              <Cell
+                cellStyle="Basic"
+                title="Pressable w/ accessory"
+                accessory="DisclosureIndicator"
+                onPress={() => console.log('Heyho!')}
+              />
+            </Section>
+          </TableView>
+        </ScrollView>
+      </View>
     );
   }
 };
@@ -48,7 +50,10 @@ export default class Dashboard extends Component<{}> {
 const styles = StyleSheet.create({
   stage: {
     backgroundColor: '#EFEFF4',
-    paddingTop: 20,
-    paddingBottom: 20,
+    paddingTop: 0,
+    paddingBottom: 0,
+  },
+  container:{
+    paddingTop: 50,
   },
 });
