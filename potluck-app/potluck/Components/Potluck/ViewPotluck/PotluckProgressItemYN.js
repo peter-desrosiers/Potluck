@@ -43,7 +43,7 @@ export default class PotluckProgressItemYN extends Component<Props> {
       return (
           <View style={styles.container}>
             <Text style={styles.name}>{this.props.member.name}:</Text>
-             <Text> <Text style={this.progressStyling(completedGoal)}>{completedGoal}</Text>             {amount}</Text>
+             <Text> <Text style={this.progressStyling(completedGoal)}>{completedGoal}</Text></Text>
           </View>
         );
   }
