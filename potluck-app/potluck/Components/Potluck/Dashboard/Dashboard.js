@@ -12,36 +12,44 @@ import {
   Text,
   TextInput,
   View,
+  FlatList,
 } from 'react-native';
 import {
   Cell,
   Section,
+  Separator,
   TableView,
 } from 'react-native-tableview-simple';
 
+const data = [
+  { id: 1, title: '1' },
+  { id: 2, title: '2' },
+  { id: 3, title: '3' },
+  { id: 4, title: '4' },
+];
+
+let ExampleWithFlatList;
+
 export default class Dashboard extends Component<{}> {
   render() {
+    ExampleWithFlatList = <FlatList
+      data={data}
+      keyExtractor={(item, index) => item.id}
+      renderItem={({ item, separators }) =>
+        <Cell
+          title={item.title}
+          accessory= "DisclosureIndicator"
+          onPress={() => console.log('Heyho!')}
+          onHighlightRow={separators.highlight}
+          onUnHighlightRow={separators.unhighlight}
+        />}
+      ItemSeparatorComponent={({ highlighted }) =>
+        <Separator isHidden={highlighted} />}
+    />
+
     return (
       <View style = {styles.container}>
-        <ScrollView contentContainerStyle={styles.stage}>
-          <TableView>
-            <Section>
-              <Cell cellStyle="Basic" title="Basic" />
-              <Cell cellStyle="RightDetail" title="RightDetail" detail="Detail" />
-              <Cell
-                cellStyle="Subtitle"
-                title="Subtitle"
-                detail="No linebreakkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk"
-              />
-              <Cell
-                cellStyle="Basic"
-                title="Pressable w/ accessory"
-                accessory="DisclosureIndicator"
-                onPress={() => console.log('Heyho!')}
-              />
-            </Section>
-          </TableView>
-        </ScrollView>
+        {ExampleWithFlatList}      
       </View>
     );
   }
