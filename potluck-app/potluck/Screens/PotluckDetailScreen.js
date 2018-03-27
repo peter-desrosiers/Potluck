@@ -30,8 +30,6 @@ export default class PotluckDetailScreen extends Component<Props> {
         potluckName: response[0].potluckName,
         potluck: response[0]
       },function(){
-        console.log(this.state.potluck)
-
       })
 
 
@@ -55,7 +53,6 @@ export default class PotluckDetailScreen extends Component<Props> {
     }
   ).then(function(response){
       if(response.ok){
-        console.log(response)
       }
     })
 
@@ -86,7 +83,7 @@ export default class PotluckDetailScreen extends Component<Props> {
     let samplePotluck = {
       members :[
         {
-          accountID: 0,
+          username: "",
           name: "",
           amount: 0,
           isAdmin: true
@@ -100,7 +97,7 @@ export default class PotluckDetailScreen extends Component<Props> {
       showPercentage: true,
       pricePerPerson: 2000,
       dateDue: "",
-      adminID: 0,
+      adminUsername: "intbrandon",
       numberOfUsers: 4
 
 
@@ -114,16 +111,16 @@ export default class PotluckDetailScreen extends Component<Props> {
 
   }
 
-  findUserInGroup(userID){
+  findUserInGroup(username){
     for(var i = 0;i<this.state.potluck.members.length;i++){
-      if(this.state.potluck.members[i].accountID === userID){
+      if(this.state.potluck.members[i].username === username){
         return i;
       }
     }
   }
 
-  handleAddMoney(newAmount, userID){
-    var userIndexInPotluck = this.findUserInGroup(userID);
+  handleAddMoney(newAmount, username){
+    var userIndexInPotluck = this.findUserInGroup(username);
     var newPotluck = this.state.potluck;
     var members = newPotluck.members;
 

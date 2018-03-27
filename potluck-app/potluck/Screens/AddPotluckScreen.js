@@ -19,7 +19,6 @@ export default class AddPotluckScreen extends Component<Props> {
   };
 
   static navigationOptions = {
-    title: 'Add Potluck',
   };
 
   constructor(props){

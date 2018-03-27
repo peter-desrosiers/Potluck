@@ -12,10 +12,6 @@ import { NavigationActions } from 'react-navigation';
 
 export default class PotluckDetailScreen extends Component<Props> {
 
-  static navigationOptions = {
-    title: 'Add Personal Potluck',
-  };
-
   goBackToHome(){
     const resetAction = NavigationActions.reset({
       index: 0,

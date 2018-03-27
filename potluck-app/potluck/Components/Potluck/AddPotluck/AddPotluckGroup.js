@@ -12,6 +12,7 @@ import {
 import PropTypes from 'prop-types';
 import t from 'tcomb-form-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import moment from 'moment';
 
 const Potluck = t.struct({
   potluckName: t.String,
@@ -20,6 +21,10 @@ const Potluck = t.struct({
   pricePerPerson: t.Number,
   dateDue: t.Date
 });
+
+let myFormatFunction = (format,date) =>{
+            return moment(date).format(format);
+        }
 
 const options = {
   fields: {
@@ -36,7 +41,11 @@ const options = {
       label: 'How much is each person paying?'
     },
     dateDue:{
-      label: 'Due Date'
+      label: 'Due Date',
+      mode: 'date',
+      config:{
+                format:(date) => myFormatFunction("DD MMM YYYY",date)
+    }
     }
   },
 };
@@ -49,26 +58,100 @@ export default class AddPotluckGroup extends Component<Props> {
   static defaultProps = {
   };
 
-
-  printSomething(){
-    console.log("YOO")
-  }
-
   constructor(props){
     super(props);
     this.state = {
-      isHiddenGroupPotluckFields: true,
-      randomText: "FALSE"
+      members:[{
+        username: '',
+        name: '',
+        amount: 0,
+        isAdmin: false
+
+      }]
     }
   }
 
-  onPress(){
-    var value = this.refs.form.getValue();
-    if (value) {
-      console.log(value);
-      console.log("Logged in User:" + this.props.loggedInUser.name)
-      // clear all fields after submit
+  validateMemberForm(memberList){
+    for(var i = 0;i<memberList.length;i++){
+      if(memberList[i].username.length==0 || memberList[i].name.length==0){
+        Alert.alert(
+          'Missing value for member',
+          'Please add name and username for member',
+          {cancelable: true}
+        )
+        return false;
+      }
     }
+    return true;
+
+  }
+
+  onPress(){
+    loggedInUserMemberInfo = {
+        username: this.props.loggedInUser.username,
+        name: this.props.loggedInUser.name,
+        amount: 0,
+        isAdmin: true
+      }
+
+    memberList = this.state.members.concat(loggedInUserMemberInfo)
+    var value = this.refs.form.getValue();
+    if (value && this.validateMemberForm(memberList)) {
+      newPotluck = {
+		"members": memberList,
+		"potluckName": value.potluckName,
+		"potluckDescription": value.potluckDescription,
+		"isGroupPotluck": true,
+		"showPercentage": value.showPercentage,
+		"pricePerPerson": value.pricePerPerson,
+		"dateDue": moment(value.dateDue).format("YYYY-MM-DD"),
+		"adminUsername": this.props.loggedInUser.username,
+		"numberOfUsers": memberList.length
+    }
+    this.addPotluck(newPotluck)
+    }
+  }
+
+  handleDeleteMember(memberID){
+    this.setState({
+      members: this.state.members.filter((s, sidx) => memberID !== sidx)
+    });
+  }
+
+  handleMemberChangeUsername(text,idx) {
+    const newMembers = this.state.members.map((member, midx) => {
+      if (idx !== midx) return member;
+      return { ...member, username: text };
+    });
+
+    this.setState({ members: newMembers });
+  }
+
+  handleMemberChangeName(text,idx) {
+    const newMembers = this.state.members.map((member, midx) => {
+      if (idx !== midx) return member;
+      return { ...member, name: text };
+    });
+
+    this.setState({ members: newMembers });
+  }
+
+
+
+
+  handleAddMember(){
+    this.setState({
+      members: this.state.members.concat([{
+        username: '',
+        name: '',
+        amount: 0,
+        isAdmin: false
+      }])
+    });
+  }
+
+  onFormChange(value) {
+    this.setState({value});
   }
 
   addPotluck(newPotluck){
@@ -79,24 +162,43 @@ export default class AddPotluckGroup extends Component<Props> {
       'content-type': 'application/json'
       },
     }
-  ).then(function(response){
+  ).then((response) => {
       if(response.ok){
-        console.log(response)
+        this.props.goBackToHome()
       }
     })
 
+
   }
+
+
 
   render() {
 
       return (
         <View style = {styles.container}>
         <KeyboardAwareScrollView contentContainerStyle={styles.main}>
+          <Text style={styles.screenTitle}>Add a Group Potluck</Text>
         <Form
+          value={this.state.value}
         ref="form"
         type={Potluck}
         options = {options}
+        onChange={(text) => this.onFormChange(text)}
         />
+      <Text>Members:</Text>
+      {this.state.members.map((member, idx)=>(
+        <View key ={idx}>
+        <TextInput type="text" placeholder={`Member's #${idx + 1} username`} onChangeText={ (text) => this.handleMemberChangeUsername(text,idx)}/>
+          <TextInput type="text" placeholder={`Member's #${idx + 1} name`} onChangeText={ (text) => this.handleMemberChangeName(text,idx)}/>
+          <TouchableHighlight onPress={this.handleDeleteMember.bind(this, idx)} underlayColor='#99d9f4'>
+            <Text style={styles.buttonText}>-</Text>
+          </TouchableHighlight>
+        </View>
+          ))}
+          <TouchableHighlight onPress={this.handleAddMember.bind(this)} underlayColor='#99d9f4'>
+            <Text style={styles.buttonText}>Add Member</Text>
+          </TouchableHighlight>
         <View style={styles.createPotluckButton}>
         <TouchableHighlight onPress={this.onPress.bind(this)} underlayColor='#99d9f4'>
           <Text style={styles.buttonText}>Create Potluck</Text>
@@ -110,10 +212,6 @@ export default class AddPotluckGroup extends Component<Props> {
 }
 
 const styles = StyleSheet.create({
-  name:{
-    fontWeight: 'bold'
-
-  },
   container:{
     alignItems: 'center',
     paddingBottom:10,
@@ -130,7 +228,15 @@ const styles = StyleSheet.create({
     width: 100,
     height:30,
     borderBottomWidth: 3
+  },
+  screenTitle:{
+    alignItems: 'center',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    padding: 8,
+    fontSize: 20,
   }
+
 });
 
 AddPotluckGroup.propTypes = {
