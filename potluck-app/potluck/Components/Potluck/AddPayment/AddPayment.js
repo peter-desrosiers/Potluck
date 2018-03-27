@@ -8,6 +8,7 @@ import React, { Component } from 'react';
 import {  View, StyleSheet, Button} from 'react-native';
 import PropTypes from 'prop-types';
 import t from 'tcomb-form-native';
+import { StackNavigator } from 'react-navigation';
 
 
 const Form = t.form.Form;
@@ -45,33 +46,27 @@ const NewPayment = t.struct({
 
 export default class AddPayment extends Component<Props> {
 
-  onChange(value){
-    t.setState({paymentInfo: value});
-  }
-
-  handleSubmit(){
-    if(this.state.paymentInfo.creditCardNumber.toString().length != 16){
-      alert('Invalid Credit Card number.');
-    }
-    else{
-      this.setState({newPayment:{
-        nameOnCard: this.state.paymentInfoData.nameOnCard,
-        creditCardNumber: this.state.paymentInfoData.creditCardNumber,
-        experationMonth: this.state.paymentInfoData.experationMonth,
-        experationYear: this.state.paymentInfoData.experationYear}},
-        function(){
-          this.props.AddPayment.state.newPayment;
-        });
-    }
-    e.preventDefault();
-  }
-
 
   constructor(props){
     super(props);
     paymentInfoData = {nameOnCard: '', creditCardNumber: '', experationMonth : '', experationYear: ''},
     this.state = { paymentInfo : paymentInfoData};
   }
+
+  onChange(value){
+    t.setState({paymentInfoData: value});
+  }
+
+  handleSubmit(event){
+      this.setState({newPayment:{
+        creditCardNumber: this.state.paymentInfoData.creditCardNumber,
+        experationMonth: this.state.paymentInfoData.experationMonth,
+        experationYear: this.state.paymentInfoData.experationYear}},
+        function(){
+          this.props.AddPayment.state.newPayment;
+        });
+      event.preventDefault();
+    }
 
   render() {
     return (

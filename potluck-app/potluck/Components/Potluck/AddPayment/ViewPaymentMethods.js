@@ -5,7 +5,8 @@
  */
 
 import React, { Component } from 'react';
-import {FlatList, StyleSheet, Text, View } from 'react-native';
+import {FlatList, StyleSheet, Text, View , Button} from 'react-native';
+import { StackNavigator } from 'react-navigation';
 import PropTypes from 'prop-types';
 import AddPayment from './AddPayment';
 
@@ -29,32 +30,38 @@ export default class ViewPaymentMethods extends Component<Props> {
       ]
 
     return (
-      <View style={styles.container}>
-        {samplePayments.map(s => <Text key={s.name, s.cardNumber, s.month, s.year}>
-          {s.name} {s.cardNumber} {s.month}/{s.year}</Text>)}
+      <View>
+        <View style={styles.container}>
+            {samplePayments.map(s => <Text key={s.name, s.cardNumber, s.month, s.year}>
+            {s.name} {s.cardNumber} {s.month}/{s.year}</Text>)}
+        </View>
+
+        <View style={styles.Button}>
+          <Button
+            title="Add Payment"
+            onPress={() => this.props.navigation.navigate('AddPaymentScreen')}
+            />
+          <Button
+            title="Delete Payment"
+            onPress={() => this.props.navigation.navigate('DeletePaymentScreen')}
+            />
+        </View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  potluckName: {
-    fontSize: 25,
-    textAlign: 'center',
-  },
-  container:{
-    margin:30,
-  },
-  potluckDescription:{
-    fontSize: 10,
-    color: '#00000090'
-  },
-  progress:{
-    flexDirection: 'column',
-    paddingTop: 30,
-    paddingBottom: 30
-  },
-  addMoney:{
-    alignItems: 'center'
+  container: {
+    justifyContent: 'center',
+    marginTop: 50,
+    padding: 20,
+    backgroundColor: '#ffffff',
+},
+  Button:{
+    justifyContent: 'center',
+    marginTop: 400,
+    padding: 10,
+    backgroundColor: '#ffffff',
   }
 });
