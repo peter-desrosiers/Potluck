@@ -13,9 +13,12 @@ import PropTypes from 'prop-types';
 import { StackNavigator } from 'react-navigation';
 
 
-export default class AddPotluckStep1 extends Component<Props> {
+export default class AddPotluckScreen extends Component<Props> {
 
   static defaultProps = {
+  };
+
+  static navigationOptions = {
   };
 
   constructor(props){
@@ -23,6 +26,16 @@ export default class AddPotluckStep1 extends Component<Props> {
   }
 
   onPress(type){
+    if(type=='personal'){
+      this.props.navigation.navigate('AddPotluckPersonal',{
+        loggedInUser: this.props.navigation.state.params.loggedInUser
+      })
+    }else if(type=='group'){
+      this.props.navigation.navigate('AddPotluckGroup',{
+        loggedInUser: this.props.navigation.state.params.loggedInUser
+      })
+    }
+
 
   }
 
@@ -32,12 +45,12 @@ export default class AddPotluckStep1 extends Component<Props> {
         <View style = {styles.container}>
         <Text style = {styles.instructions}>Which type of potluck would you like to create?</Text>
         <View style = {styles.potluckTypeButton}>
-        <TouchableHighlight onPress={this.onPress.bind(this, 'personal')} underlayColor='#99d9f4'>
+        <TouchableHighlight onPress={this.onPress.bind(this, 'group')} underlayColor='#99d9f4'>
           <Text style={styles.potluckTypeButtonText}>Group</Text>
         </TouchableHighlight>
         </View>
         <View style = {styles.potluckTypeButton}>
-        <TouchableHighlight onPress={this.onPress.bind(this,'group')} underlayColor='#99d9f4'>
+        <TouchableHighlight onPress={this.onPress.bind(this,'personal')} underlayColor='#99d9f4'>
           <Text style={styles.potluckTypeButtonText}>Personal</Text>
         </TouchableHighlight>
         </View>
@@ -74,7 +87,7 @@ const styles = StyleSheet.create({
   }
 });
 
-AddPotluckStep1.propTypes = {
+AddPotluckScreen.propTypes = {
 
 
 };

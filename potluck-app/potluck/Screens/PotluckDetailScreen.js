@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Button,
   Text,
+  TouchableOpacity,
   View
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
@@ -17,6 +18,17 @@ import ViewPotluck from '../Components/Potluck/ViewPotluck/ViewPotluck';
 
 
 export default class PotluckDetailScreen extends Component<Props> {
+
+  static navigationOptions = ({ navigation }) => {
+  return {
+    headerRight: <TouchableOpacity style={ [{paddingHorizontal:15}] }
+                    onPress={() => navigation.navigate('EditPotluckScreen',{
+                      potluckID: navigation.state.params.potluckID
+                    })}>
+                    <Text>Edit</Text>
+                  </TouchableOpacity>,
+  }
+};
 
 
 
@@ -57,6 +69,7 @@ export default class PotluckDetailScreen extends Component<Props> {
     })
 
   }
+
 
   componentDidMount(){
     this.getParams()

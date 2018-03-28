@@ -5,14 +5,8 @@ from flask_environments import Environments
 from bson.objectid import ObjectId
 
 app = Flask("potluck")
+app.config['MONGO_URI']= "mongodb://potluckUser:password95@ds217349.mlab.com:17349/potluck"
 mongo = PyMongo(app)
-
-
-
-@app.route("/potlucks/accountID/<accountID>")
-def getPotlucksAccountID(accountID):
-  potlucks = mongo.db.potlucks.find({"members.accountID": int(accountID)})
-  return dumps(potlucks)
 
 @app.route("/potlucks/username/<username>")
 def getPotlucksUsername(username):

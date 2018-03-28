@@ -54,16 +54,14 @@ export default class AddPotluckPersonal extends Component<Props> {
   static defaultProps = {
   };
 
-
-  printSomething(){
-    console.log("YOO")
-  }
-
   constructor(props){
     super(props);
     this.state = {
       isHiddenGroupPotluckFields: true,
-      randomText: "FALSE"
+      randomText: "FALSE",
+      potluck:{
+
+      }
     }
   }
 
@@ -120,11 +118,19 @@ export default class AddPotluckPersonal extends Component<Props> {
         ref="form"
         type={Potluck}
         options = {options}
+        value={this.state.potluck}
         />
-        <View style={styles.createPotluckButton}>
-        <TouchableHighlight onPress={this.onPress.bind(this)} underlayColor='#99d9f4'>
-          <Text style={styles.buttonText}>Create Potluck</Text>
+        <View style={styles.potluckActionButtons}>
+        <View style={styles.updatePotluckButton}>
+        <TouchableHighlight onPress={this.props.updatePotluck.bind(this)} underlayColor='#99d9f4'>
+          <Text style={styles.buttonText}>Update Potluck</Text>
         </TouchableHighlight>
+        </View>
+        <View style={styles.cancelPotluckButton}>
+        <TouchableHighlight onPress={this.props.cancelUpdatePotluck.bind(this)} underlayColor='#99d9f4'>
+          <Text style={styles.buttonText}>Cancel</Text>
+        </TouchableHighlight>
+        </View>
         </View>
         </KeyboardAwareScrollView>
         </View>
@@ -146,10 +152,13 @@ const styles = StyleSheet.create({
     height:30,
     borderBottomWidth: 3
   },
-  createPotluckButton:{
-    alignItems: 'center',
+  updatePotluckButton:{
     padding: 5,
     backgroundColor:'#00FF00'
+  },
+  cancelPotluckButton:{
+    padding: 5,
+    backgroundColor:'#FF0000'
   },
   screenTitle:{
     alignItems: 'center',
@@ -157,6 +166,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     padding: 8,
     fontSize: 20,
+  },
+  potluckActionButtons:{
+    flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingTop: 20
   }
 });
 

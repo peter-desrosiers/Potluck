@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { StackNavigator } from 'react-navigation';
-
+import AddPotluckNewStep1 from '../Components/Potluck/AddPotluck/AddPotluckNewStep1';
 
 export default class AddPotluckScreen extends Component<Props> {
 
@@ -26,34 +26,22 @@ export default class AddPotluckScreen extends Component<Props> {
   }
 
   onPress(type){
-    if(type=='personal'){
-      this.props.navigation.navigate('AddPotluckPersonal',{
-        loggedInUser: this.props.navigation.state.params.loggedInUser
-      })
-    }else if(type=='group'){
-      this.props.navigation.navigate('AddPotluckGroup',{
-        loggedInUser: this.props.navigation.state.params.loggedInUser
-      })
-    }
 
+  }
 
+  goToNextStep(value){
+    this.props.navigation.navigate('AddPotluckScreenStep2',{
+      value: value,
+      loggedInUser: this.props.navigation.state.params.loggedInUser
+    })
   }
 
   render() {
 
+
       return (
         <View style = {styles.container}>
-        <Text style = {styles.instructions}>Which type of potluck would you like to create?</Text>
-        <View style = {styles.potluckTypeButton}>
-        <TouchableHighlight onPress={this.onPress.bind(this, 'group')} underlayColor='#99d9f4'>
-          <Text style={styles.potluckTypeButtonText}>Group</Text>
-        </TouchableHighlight>
-        </View>
-        <View style = {styles.potluckTypeButton}>
-        <TouchableHighlight onPress={this.onPress.bind(this,'personal')} underlayColor='#99d9f4'>
-          <Text style={styles.potluckTypeButtonText}>Personal</Text>
-        </TouchableHighlight>
-        </View>
+        <AddPotluckNewStep1 goToNextStep={this.goToNextStep.bind(this)}/>
         </View>
 
         );
