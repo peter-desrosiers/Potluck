@@ -5,7 +5,6 @@ from flask_environments import Environments
 from bson.objectid import ObjectId
 
 app = Flask("potluck")
-
 mongo = PyMongo(app)
 
 
@@ -13,6 +12,11 @@ mongo = PyMongo(app)
 @app.route("/potlucks/accountID/<accountID>")
 def getPotlucksAccountID(accountID):
   potlucks = mongo.db.potlucks.find({"members.accountID": int(accountID)})
+  return dumps(potlucks)
+
+@app.route("/potlucks/username/<username>")
+def getPotlucksUsername(username):
+  potlucks = mongo.db.potlucks.find({"members.username": username})
   return dumps(potlucks)
 
 @app.route("/potlucks/potluckID/<potluckID>")
