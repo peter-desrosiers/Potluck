@@ -9,8 +9,11 @@ import {
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import EditPotluckGroup from '../Components/Potluck/EditPotluck/EditPotluckGroup';
-import EditPotluckPersonal from '../Components/Potluck/EditPotluck/EditPotluckPersonal';
+import { NavigationActions } from 'react-navigation';
+
+import EditPotluckGroupStep2 from '../Components/Potluck/EditPotluck/EditPotluckGroupStep2';
+import EditPotluckPersonalStep2 from '../Components/Potluck/EditPotluck/EditPotluckPersonalStep2';
+import EditPotluckStep1 from '../Components/Potluck/EditPotluck/EditPotluckStep1';
 
 export default class EditPotluckScreen extends Component<Props> {
 
@@ -18,23 +21,29 @@ export default class EditPotluckScreen extends Component<Props> {
     header: null,
   };
 
-  updatePotluck(){
-    console.log("UPDATE")
 
+  updatePotluck(value){
+    console.log(this.props.navigation.state.params)
+    this.props.navigation.navigate('EditPotluckScreenStep2',{
+      value: value,
+      oldPotluck: this.props.navigation.state.params.potluck,
+      loggedInUser: this.props.navigation.state.params.loggedInUser,
+      potluckID: this.props.navigation.state.params.potluckID,
+    })
   }
 
   cancelUpdatePotluck(){
     this.props.navigation.goBack()
+
 
   }
 
   render(){
     let platform = Platform.OS;
     let platformSpecificStyle = {}
-
     return(
       <View style={styles.container}>
-      <EditPotluckPersonal cancelUpdatePotluck = {this.cancelUpdatePotluck.bind(this)} updatePotluck = {this.updatePotluck.bind(this)} />
+      <EditPotluckStep1 potluck = {this.props.navigation.state.params.potluck} cancelUpdatePotluck = {this.cancelUpdatePotluck.bind(this)} updatePotluck = {this.updatePotluck.bind(this)} />
       </View>
     )
   }

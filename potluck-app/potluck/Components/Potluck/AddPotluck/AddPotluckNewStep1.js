@@ -69,6 +69,7 @@ export default class AddPotluckPersonal extends Component<Props> {
 
   onPress(){
     var value = this.refs.form.getValue();
+    console.log(value.dateDue)
     if (value)
       this.props.goToNextStep(value);
   }

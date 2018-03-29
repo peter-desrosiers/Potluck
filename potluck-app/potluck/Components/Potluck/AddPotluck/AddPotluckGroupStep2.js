@@ -136,25 +136,6 @@ export default class AddPotluckGroup extends Component<Props> {
     this.setState({value});
   }
 
-  addPotluck(newPotluck){
-    fetch('http://localhost:5000/potlucks',{
-      body: JSON.stringify(newPotluck),
-      method: 'POST',
-      headers: {
-      'content-type': 'application/json'
-      },
-    }
-  ).then((response) => {
-      if(response.ok){
-        this.props.goBackToHome()
-      }
-    })
-
-
-  }
-
-
-
   render() {
 
       return (

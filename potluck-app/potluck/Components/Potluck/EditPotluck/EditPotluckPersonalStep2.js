@@ -15,10 +15,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import moment from 'moment';
 
 const Potluck = t.struct({
-  potluckName: t.String,
-  potluckDescription: t.String,
   pricePerPerson: t.Number,
-  dateDue: t.Date
 });
 
 let myFormatFunction = (format,date) =>{
@@ -27,23 +24,10 @@ let myFormatFunction = (format,date) =>{
 
 const options = {
   fields: {
-    potluckName: {
-      label: 'Potluck Name',
-    },
-    potluckDescription:{
-      label: 'Description'
-    },
     pricePerPerson:{
-      label: 'How much is the goal?'
-    },
-    dateDue:{
-      label: 'Due Date',
-      mode: 'date',
-      config:{
-                format:(date) => myFormatFunction("DD MMM YYYY",date)
+      label: 'How much is your goal?'
     }
     }
-  },
 };
 
 const Form = t.form.Form;
@@ -56,55 +40,40 @@ export default class AddPotluckPersonal extends Component<Props> {
 
   constructor(props){
     super(props);
+
+    potluck = {} = this.props.potluck
+
+    value = {
+      pricePerPerson: potluck.pricePerPerson
+
+    }
+    console.log(this.props.indexInGroup)
+    console.log(this.props.potluck.members[0])
     this.state = {
       isHiddenGroupPotluckFields: true,
       randomText: "FALSE",
-      potluck:{
-
-      }
+      value: value
     }
   }
 
   onPress(){
+    memberList = [
+        {
+        "username": this.props.loggedInUser.username,
+        "name": this.props.loggedInUser.name,
+        "amount": this.props.potluck.members[this.props.indexInGroup].amount,
+        "isAdmin": true
+      }
+    ]
     var value = this.refs.form.getValue();
     if (value) {
-      newPotluck = {
-		"members": [
-        {
-				"username": this.props.loggedInUser.username,
-				"name": this.props.loggedInUser.name,
-				"amount": 0,
-				"isAdmin": true
-			}
-		],
-		"potluckName": value.potluckName,
-		"potluckDescription": value.potluckDescription,
-		"isGroupPotluck": false,
-		"showPercentage": false,
-		"pricePerPerson": value.pricePerPerson,
-    "dateDue": moment(value.dateDue).format("YYYY-MM-DD"),
-		"adminUsername": this.props.loggedInUser.username,
-		"numberOfUsers": 1
-      // clear all fields after submit
-    }
-  }
-    this.addPotluck(newPotluck)
-  }
-
-  addPotluck(newPotluck){
-    fetch('http://localhost:5000/potlucks',{
-      body: JSON.stringify(newPotluck),
-      method: 'POST',
-      headers: {
-      'content-type': 'application/json'
-      },
-    }
-  ).then((response) => {
-      if(response.ok){
-        this.props.goBackToHome()
+      values = {
+        members: memberList,
+        pricePerPerson: value.pricePerPerson,
+        isGroupPotluck: false
       }
-    })
-
+      this.props.submitPotluck(values)
+    }
 
   }
 
@@ -118,11 +87,12 @@ export default class AddPotluckPersonal extends Component<Props> {
         ref="form"
         type={Potluck}
         options = {options}
-        value={this.state.potluck}
+        value = {this.state.value}
         />
+
         <View style={styles.potluckActionButtons}>
         <View style={styles.updatePotluckButton}>
-        <TouchableHighlight onPress={this.props.updatePotluck.bind(this)} underlayColor='#99d9f4'>
+        <TouchableHighlight onPress={this.onPress.bind(this)} underlayColor='#99d9f4'>
           <Text style={styles.buttonText}>Update Potluck</Text>
         </TouchableHighlight>
         </View>
@@ -152,13 +122,10 @@ const styles = StyleSheet.create({
     height:30,
     borderBottomWidth: 3
   },
-  updatePotluckButton:{
+  createPotluckButton:{
+    alignItems: 'center',
     padding: 5,
     backgroundColor:'#00FF00'
-  },
-  cancelPotluckButton:{
-    padding: 5,
-    backgroundColor:'#FF0000'
   },
   screenTitle:{
     alignItems: 'center',

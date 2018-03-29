@@ -21,6 +21,8 @@ import AddPotluckScreen from './Screens/AddPotluckScreen'
 import AddPotluckScreenStep2 from './Screens/AddPotluckScreenStep2'
 
 import EditPotluckScreen from './Screens/EditPotluckScreen'
+import EditPotluckScreenStep2 from './Screens/EditPotluckScreenStep2'
+
 import AccountInfoScreen from './Screens/AccountInfoScreen'
 
 export const PotluckDetailStack = StackNavigator(
@@ -28,8 +30,14 @@ export const PotluckDetailStack = StackNavigator(
     PotluckDetailScreen: {
       screen: PotluckDetailScreen,
     },
-    EditPotluckScreen:{
-      screen: EditPotluckScreen
+    EditPotluckScreen: {
+      screen: EditPotluckScreen,
+    },
+    EditPotluckScreenStep2:{
+      screen: EditPotluckScreenStep2
+    },
+    HomeScreen: {
+      screen: HomeScreen,
     },
     initialRouteName: 'PotluckDetailScreen'
   },
@@ -38,6 +46,9 @@ export const PotluckDetailStack = StackNavigator(
     headerMode: 'none',
   }
 )
+
+
+
 
 export const HomeStack = StackNavigator(
   {

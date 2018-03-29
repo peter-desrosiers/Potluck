@@ -15,11 +15,8 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import moment from 'moment';
 
 const Potluck = t.struct({
-  potluckName: t.String,
-  potluckDescription: t.String,
   showPercentage: t.Boolean,
   pricePerPerson: t.Number,
-  dateDue: t.Date
 });
 
 let myFormatFunction = (format,date) =>{
@@ -28,25 +25,13 @@ let myFormatFunction = (format,date) =>{
 
 const options = {
   fields: {
-    potluckName: {
-      label: 'Potluck Name',
-    },
-    potluckDescription:{
-      label: 'Description'
-    },
     showPercentage:{
       label: 'Show percentage progress of each user?'
     },
     pricePerPerson:{
       label: 'How much is each person paying?'
     },
-    dateDue:{
-      label: 'Due Date',
-      mode: 'date',
-      config:{
-                format:(date) => myFormatFunction("DD MMM YYYY",date)
-    }
-    }
+
   },
 };
 
@@ -60,14 +45,23 @@ export default class AddPotluckGroup extends Component<Props> {
 
   constructor(props){
     super(props);
-    this.state = {
-      members:[{
-        username: '',
-        name: '',
-        amount: 0,
-        isAdmin: false
 
-      }]
+    potluck = {} = this.props.potluck
+
+    value = {
+      pricePerPerson: potluck.pricePerPerson,
+      showPercentage: potluck.showPercentage
+
+    }
+    this.state = {
+      isHiddenGroupPotluckFields: true,
+      randomText: "FALSE",
+      value: value
+    }
+
+    this.state = {
+      members: potluck.members,
+      value
     }
   }
 
@@ -87,29 +81,20 @@ export default class AddPotluckGroup extends Component<Props> {
   }
 
   onPress(){
-    loggedInUserMemberInfo = {
-        username: this.props.loggedInUser.username,
-        name: this.props.loggedInUser.name,
-        amount: 0,
-        isAdmin: true
-      }
 
-    memberList = this.state.members.concat(loggedInUserMemberInfo)
+    memberList = this.state.members
     var value = this.refs.form.getValue();
     if (value && this.validateMemberForm(memberList)) {
-      newPotluck = {
-		"members": memberList,
-		"potluckName": value.potluckName,
-		"potluckDescription": value.potluckDescription,
-		"isGroupPotluck": true,
-		"showPercentage": value.showPercentage,
-		"pricePerPerson": value.pricePerPerson,
-		"dateDue": moment(value.dateDue).format("YYYY-MM-DD"),
-		"adminUsername": this.props.loggedInUser.username,
-		"numberOfUsers": memberList.length
+
+      values = {
+        members: memberList,
+        pricePerPerson: value.pricePerPerson,
+        isGroupPotluck: true,
+        showPercentage: value.showPercentage
+      }
+      this.props.submitPotluck(values)
     }
-    this.addPotluck(newPotluck)
-    }
+
   }
 
   handleDeleteMember(memberID){
@@ -154,23 +139,6 @@ export default class AddPotluckGroup extends Component<Props> {
     this.setState({value});
   }
 
-  addPotluck(newPotluck){
-    fetch('http://localhost:5000/potlucks',{
-      body: JSON.stringify(newPotluck),
-      method: 'POST',
-      headers: {
-      'content-type': 'application/json'
-      },
-    }
-  ).then((response) => {
-      if(response.ok){
-        this.props.goBackToHome()
-      }
-    })
-
-
-  }
-
 
 
   render() {
@@ -187,22 +155,27 @@ export default class AddPotluckGroup extends Component<Props> {
         onChange={(text) => this.onFormChange(text)}
         />
       <Text>Members:</Text>
-      {this.state.members.map((member, idx)=>(
+      {this.state.members.map((member, idx)=>{
+        console.log(member.username != this.props.loggedInUser.username)
+        if(member.username != this.props.loggedInUser.username){
+          return(
         <View key ={idx}>
-        <TextInput type="text" placeholder={`Member's #${idx + 1} username`} onChangeText={ (text) => this.handleMemberChangeUsername(text,idx)}/>
-          <TextInput type="text" placeholder={`Member's #${idx + 1} name`} onChangeText={ (text) => this.handleMemberChangeName(text,idx)}/>
+        <TextInput type="text" placeholder={`Member's #${idx + 1} username`} value={member.username} onChangeText={ (text) => this.handleMemberChangeUsername(text,idx)}/>
+          <TextInput type="text" placeholder={`Member's #${idx + 1} name`}         value={member.name} onChangeText={ (text) => this.handleMemberChangeName(text,idx)}/>
           <TouchableHighlight onPress={this.handleDeleteMember.bind(this, idx)} underlayColor='#99d9f4'>
             <Text style={styles.buttonText}>-</Text>
           </TouchableHighlight>
-        </View>
-          ))}
+        </View>)
+      }
+    })}
+
           <TouchableHighlight onPress={this.handleAddMember.bind(this)} underlayColor='#99d9f4'>
             <Text style={styles.buttonText}>Add Member</Text>
           </TouchableHighlight>
 
         <View style={styles.potluckActionButtons}>
         <View style={styles.updatePotluckButton}>
-        <TouchableHighlight onPress={this.props.updatePotluck.bind(this)} underlayColor='#99d9f4'>
+        <TouchableHighlight onPress={this.onPress.bind(this)} underlayColor='#99d9f4'>
           <Text style={styles.buttonText}>Update Potluck</Text>
         </TouchableHighlight>
         </View>
@@ -226,13 +199,10 @@ const styles = StyleSheet.create({
     paddingTop:10
 
   },
-  updatePotluckButton:{
+  createPotluckButton:{
+    alignItems: 'center',
     padding: 5,
     backgroundColor:'#00FF00'
-  },
-  cancelPotluckButton:{
-    padding: 5,
-    backgroundColor:'#FF0000'
   },
   textInput: {
     borderColor: 'black',
