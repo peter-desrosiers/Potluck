@@ -10,6 +10,7 @@ import { StackNavigator } from 'react-navigation';
 import PropTypes from 'prop-types';
 import AddPayment from './AddPayment';
 
+
 export default class ViewPaymentMethods extends Component<Props> {
 
 
@@ -17,13 +18,13 @@ export default class ViewPaymentMethods extends Component<Props> {
     var samplePayments = [
         {
           name: "Peter Desrosiers",
-          cardNumber: 1234567812345678,
+          cardNumber: "1234567812345678",
           month: 11,
           year: 19
         },
         {
           name: "Peter Desrosiers",
-          cardNumber: 8765432112345678,
+          cardNumber: "8765432112345678",
           month: 5,
           year: 22
         },
@@ -32,8 +33,9 @@ export default class ViewPaymentMethods extends Component<Props> {
     return (
       <View>
         <View style={styles.container}>
+
             {samplePayments.map(s => <Text key={s.name, s.cardNumber, s.month, s.year}>
-            {s.name} {s.cardNumber} {s.month}/{s.year}</Text>)}
+            {s.name} {s.cardNumber.substring(12)} {s.month}/{s.year}</Text>)}
         </View>
 
         <View style={styles.Button}>

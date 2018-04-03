@@ -5,7 +5,7 @@
  */
 
 import React, { Component } from 'react';
-import {  View, StyleSheet, Button} from 'react-native';
+import {  View, StyleSheet, Button, Text, Alert} from 'react-native';
 import PropTypes from 'prop-types';
 import t from 'tcomb-form-native';
 import { StackNavigator } from 'react-navigation';
@@ -38,7 +38,7 @@ var ExperationYear = t.enums({
 
 const NewPayment = t.struct({
   nameOnCard : t.String,
-  creditCardNumber : t.Number,
+  creditCardNumber : t.String,
   experationMonth : ExperationMonth,
   experationYear : ExperationYear
 });
@@ -49,22 +49,31 @@ export default class AddPayment extends Component<Props> {
 
   constructor(props){
     super(props);
-    paymentInfoData = {nameOnCard: '', creditCardNumber: '', experationMonth : '', experationYear: ''},
-    this.state = { paymentInfo : paymentInfoData};
+    paymentInfo = {nameOnCard: '', creditCardNumber: '', experationMonth : '', experationYear: ''},
+    this.state = {paymentInfo};
   }
 
   onChange(value){
-    t.setState({paymentInfoData: value});
+    this.setState({paymentInfo: value});
   }
 
   handleSubmit(event){
-      this.setState({newPayment:{
-        creditCardNumber: this.state.paymentInfoData.creditCardNumber,
-        experationMonth: this.state.paymentInfoData.experationMonth,
-        experationYear: this.state.paymentInfoData.experationYear}},
-        function(){
-          this.props.AddPayment.state.newPayment;
-        });
+
+    var cardValue = this.state.paymentInfo.creditCardNumber.value
+
+    if(cardValue.length != 16){
+          Alert.alert(
+            "Invalid Credit Card Number"
+          )
+      }
+
+      this.setState({newPaymentMethod:{
+        nameOnCard: this.state.paymentInfo.nameOnCard.value,
+        creditCardNumber: this.state.paymentInfo.creditCardNumber.value,
+        experationMonth: this.state.paymentInfo.experationMonth,
+        experationYear: this.state.paymentInfo.experationYear}},
+        );
+
       event.preventDefault();
     }
 
@@ -72,9 +81,8 @@ export default class AddPayment extends Component<Props> {
     return (
       <View style={styles.container}>
         <Form type={NewPayment} />
-        <Button
-          title="Add Card"
-          onPress={this.handleSubmit}
+        <Button title="Add Card"
+          onPress={this.handleSubmit.bind(this)}
           />
       </View>
     );
@@ -88,4 +96,11 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#ffffff',
   },
+
+  addButton:{
+  fontSize: 20,
+  padding: 5,
+  backgroundColor:'#00FF00'
+},
+
 });
