@@ -12,7 +12,6 @@ import {
   View
 } from 'react-native';
 import PropTypes from 'prop-types';
-import PotluckProgressItemYN from './PotluckProgressItemYN';
 import * as Progress from 'react-native-progress';
 
 export default class PersonalProgress extends Component<Props> {
@@ -30,13 +29,17 @@ export default class PersonalProgress extends Component<Props> {
   return Math.round(number * factor) / factor;
   }
 
+
   render() {
     let memberName = this.props.userPotluckInfo.name;
-    let accountID = this.props.userPotluckInfo.accountID;
+    let username = this.props.userPotluckInfo.username;
+    console.log(username)
     let amount = this.props.userPotluckInfo.amount;
     let pricePerPerson = this.props.pricePerPerson;
     var amountProgress = this.calculateProgress(amount,pricePerPerson);
     var amountLeft = pricePerPerson-amount;
+    let completedGoal = (amount==pricePerPerson? "Yes" : "No");
+
       return (
           <View style={styles.container}>
             <Text style={{fontWeight: 'bold', fontSize:20}}>Your Progress:</Text>

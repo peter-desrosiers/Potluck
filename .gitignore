@@ -22,6 +22,9 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 
+.expo/
+
+
 # Android/IntelliJ
 #
 build/
@@ -29,7 +32,6 @@ build/
 .gradle
 local.properties
 *.iml
-
 # node.js
 #
 node_modules/
@@ -51,3 +53,17 @@ buck-out/
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
+
+#Flask/Python
+*.pyc
+*.pyo
+.installed.cfg
+bin
+develop-eggs
+dist
+downloads
+eggs
+parts
+src/*.egg-info
+config.py
+__pycache__
