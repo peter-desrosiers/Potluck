@@ -1,4 +1,35 @@
-Get all Potlucks:
-http://localhost:5000/potlucks
-/potlucks/accountID/0<accountID>
-/potlucks/potluckID/<potluckID>
+GET: Get all Potlucks:
+/potlucks
+
+POST: Creates a new potluck using request
+/potlucks/
+
+GET: Get all potlucks for a user using the specified username
+/potlucks/username/
+
+GET: Get details on a specific potluck using the potluck ID(oid)
+/potlucks/potluckID/
+
+PUT: Update a specific potluck using the potluck ID(oid)
+/potlucks/potluckID/
+
+FORMAT FOR POTLUCK:
+
+{
+"members": [
+{
+"username": "bcc4679",
+"name": "Brandon Cornel",
+"amount": 0,
+"isAdmin": true
+}
+],
+"potluckName": "RANDOMN POTLUCK",
+"potluckDescription": "I want Apples!!!!",
+"isGroupPotluck": false,
+"showPercentage": false,
+"pricePerPerson": 3000,
+"dateDue": "2018-05-18",
+"adminUsername": "bcc4679",
+"numberOfUsers": 1
+}

@@ -15,11 +15,8 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import moment from 'moment';
 
 const Potluck = t.struct({
-  potluckName: t.String,
-  potluckDescription: t.String,
   showPercentage: t.Boolean,
   pricePerPerson: t.Number,
-  dateDue: t.Date
 });
 
 let myFormatFunction = (format,date) =>{
@@ -28,25 +25,13 @@ let myFormatFunction = (format,date) =>{
 
 const options = {
   fields: {
-    potluckName: {
-      label: 'Potluck Name',
-    },
-    potluckDescription:{
-      label: 'Description'
-    },
     showPercentage:{
       label: 'Show percentage progress of each user?'
     },
     pricePerPerson:{
       label: 'How much is each person paying?'
     },
-    dateDue:{
-      label: 'Due Date',
-      mode: 'date',
-      config:{
-                format:(date) => myFormatFunction("DD MMM YYYY",date)
-    }
-    }
+
   },
 };
 
@@ -97,19 +82,16 @@ export default class AddPotluckGroup extends Component<Props> {
     memberList = this.state.members.concat(loggedInUserMemberInfo)
     var value = this.refs.form.getValue();
     if (value && this.validateMemberForm(memberList)) {
-      newPotluck = {
-		"members": memberList,
-		"potluckName": value.potluckName,
-		"potluckDescription": value.potluckDescription,
-		"isGroupPotluck": true,
-		"showPercentage": value.showPercentage,
-		"pricePerPerson": value.pricePerPerson,
-		"dateDue": moment(value.dateDue).format("YYYY-MM-DD"),
-		"adminUsername": this.props.loggedInUser.username,
-		"numberOfUsers": memberList.length
+
+      values = {
+        members: memberList,
+        pricePerPerson: value.pricePerPerson,
+        isGroupPotluck: true,
+        showPercentage: value.showPercentage
+      }
+      this.props.submitPotluck(values)
     }
-    this.addPotluck(newPotluck)
-    }
+
   }
 
   handleDeleteMember(memberID){
@@ -153,25 +135,6 @@ export default class AddPotluckGroup extends Component<Props> {
   onFormChange(value) {
     this.setState({value});
   }
-
-  addPotluck(newPotluck){
-    fetch('http://localhost:5000/potlucks',{
-      body: JSON.stringify(newPotluck),
-      method: 'POST',
-      headers: {
-      'content-type': 'application/json'
-      },
-    }
-  ).then((response) => {
-      if(response.ok){
-        this.props.goBackToHome()
-      }
-    })
-
-
-  }
-
-
 
   render() {
 

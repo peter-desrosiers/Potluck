@@ -15,10 +15,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import moment from 'moment';
 
 const Potluck = t.struct({
-  potluckName: t.String,
-  potluckDescription: t.String,
   pricePerPerson: t.Number,
-  dateDue: t.Date
 });
 
 let myFormatFunction = (format,date) =>{
@@ -27,23 +24,10 @@ let myFormatFunction = (format,date) =>{
 
 const options = {
   fields: {
-    potluckName: {
-      label: 'Potluck Name',
-    },
-    potluckDescription:{
-      label: 'Description'
-    },
     pricePerPerson:{
-      label: 'How much is the goal?'
-    },
-    dateDue:{
-      label: 'Due Date',
-      mode: 'date',
-      config:{
-                format:(date) => myFormatFunction("DD MMM YYYY",date)
+      label: 'How much is your goal?'
     }
     }
-  },
 };
 
 const Form = t.form.Form;
@@ -54,59 +38,42 @@ export default class AddPotluckPersonal extends Component<Props> {
   static defaultProps = {
   };
 
-
-  printSomething(){
-    console.log("YOO")
-  }
-
   constructor(props){
     super(props);
+
+    potluck = {} = this.props.potluck
+
+    value = {
+      pricePerPerson: potluck.pricePerPerson
+
+    }
+    console.log(this.props.indexInGroup)
+    console.log(this.props.potluck.members[0])
     this.state = {
       isHiddenGroupPotluckFields: true,
-      randomText: "FALSE"
+      randomText: "FALSE",
+      value: value
     }
   }
 
   onPress(){
+    memberList = [
+        {
+        "username": this.props.loggedInUser.username,
+        "name": this.props.loggedInUser.name,
+        "amount": this.props.potluck.members[this.props.indexInGroup].amount,
+        "isAdmin": true
+      }
+    ]
     var value = this.refs.form.getValue();
     if (value) {
-      newPotluck = {
-		"members": [
-        {
-				"username": this.props.loggedInUser.username,
-				"name": this.props.loggedInUser.name,
-				"amount": 0,
-				"isAdmin": true
-			}
-		],
-		"potluckName": value.potluckName,
-		"potluckDescription": value.potluckDescription,
-		"isGroupPotluck": false,
-		"showPercentage": false,
-		"pricePerPerson": value.pricePerPerson,
-    "dateDue": moment(value.dateDue).format("YYYY-MM-DD"),
-		"adminUsername": this.props.loggedInUser.username,
-		"numberOfUsers": 1
-      // clear all fields after submit
-    }
-  }
-    this.addPotluck(newPotluck)
-  }
-
-  addPotluck(newPotluck){
-    fetch('http://localhost:5000/potlucks',{
-      body: JSON.stringify(newPotluck),
-      method: 'POST',
-      headers: {
-      'content-type': 'application/json'
-      },
-    }
-  ).then((response) => {
-      if(response.ok){
-        this.props.goBackToHome()
+      values = {
+        members: memberList,
+        pricePerPerson: value.pricePerPerson,
+        isGroupPotluck: false
       }
-    })
-
+      this.props.submitPotluck(values)
+    }
 
   }
 
@@ -120,11 +87,20 @@ export default class AddPotluckPersonal extends Component<Props> {
         ref="form"
         type={Potluck}
         options = {options}
+        value = {this.state.value}
         />
-        <View style={styles.createPotluckButton}>
+
+        <View style={styles.potluckActionButtons}>
+        <View style={styles.updatePotluckButton}>
         <TouchableHighlight onPress={this.onPress.bind(this)} underlayColor='#99d9f4'>
-          <Text style={styles.buttonText}>Create Potluck</Text>
+          <Text style={styles.buttonText}>Update Potluck</Text>
         </TouchableHighlight>
+        </View>
+        <View style={styles.cancelPotluckButton}>
+        <TouchableHighlight onPress={this.props.cancelUpdatePotluck.bind(this)} underlayColor='#99d9f4'>
+          <Text style={styles.buttonText}>Cancel</Text>
+        </TouchableHighlight>
+        </View>
         </View>
         </KeyboardAwareScrollView>
         </View>
@@ -157,6 +133,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     padding: 8,
     fontSize: 20,
+  },
+  potluckActionButtons:{
+    flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingTop: 20
   }
 });
 

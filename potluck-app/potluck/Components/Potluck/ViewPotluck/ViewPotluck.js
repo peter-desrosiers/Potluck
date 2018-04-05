@@ -10,6 +10,7 @@ import {
   StyleSheet,
   ScrollView,
   Text,
+  TouchableHighlight,
   View
 } from 'react-native';
 import PropTypes from 'prop-types';
@@ -115,6 +116,8 @@ export default class ViewPotluck extends Component<Props> {
         <KeyboardAwareScrollView contentContainerStyle={styles.main}>
           <Text style={styles.potluckName}>{potluckName}</Text>
           <Text style={styles.potluckDescription}>{potluckDescription}</Text>
+          <Text style={styles.potluckDescription}>Due Date: {dateDue}</Text>
+          <Text style={styles.potluckDescription}>Price per Person: ${pricePerPerson}</Text>
 
           {progressComponent}
           <PersonalProgress   userPotluckInfo={userPotluckInfo} pricePerPerson={pricePerPerson}/>
@@ -147,7 +150,18 @@ const styles = StyleSheet.create({
   },
   addMoney:{
     alignItems: 'center'
-  }
+  },
+  editButtonView:{
+    flexDirection: 'row',
+     flex: 1,
+     justifyContent: 'space-between',
+     paddingTop: 1
+   },
+   editButton:{
+     color: "#00FF00"
+   }
+
+
 });
 
 ViewPotluck.propTypes = {
