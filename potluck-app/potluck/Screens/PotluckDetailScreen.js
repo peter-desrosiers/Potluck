@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Button,
   Text,
+  TouchableOpacity,
   View
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
@@ -17,6 +18,19 @@ import ViewPotluck from '../Components/Potluck/ViewPotluck/ViewPotluck';
 
 
 export default class PotluckDetailScreen extends Component<Props> {
+
+  static navigationOptions = ({ navigation }) => {
+  return {
+    headerRight: <TouchableOpacity style={ [{paddingHorizontal:15}] }
+                    onPress={() => navigation.navigate('EditPotluckScreen',{
+                      potluckID: navigation.state.params.potluckID,
+                      potluck: navigation.state.params.potluck,
+                      loggedInUser: navigation.state.params.loggedInUser
+                    })}>
+                    <Text>Edit</Text>
+                  </TouchableOpacity>,
+  }
+};
 
 
 
@@ -31,6 +45,10 @@ export default class PotluckDetailScreen extends Component<Props> {
         potluck: response[0]
       },function(){
       })
+
+      this.props.navigation.setParams({
+        potluck: response[0]
+       });
 
 
 
@@ -57,6 +75,7 @@ export default class PotluckDetailScreen extends Component<Props> {
     })
 
   }
+
 
   componentDidMount(){
     this.getParams()
@@ -107,7 +126,7 @@ export default class PotluckDetailScreen extends Component<Props> {
     var userIndexInPotluck = this.findUserInGroup(username);
     var newPotluck = this.state.potluck;
     var members = newPotluck.members;
-
+    console.log(newPotluck)
     var newData = members[userIndexInPotluck]
     newData.amount = newAmount;
     //Need to find a way to change it
