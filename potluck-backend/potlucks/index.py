@@ -5,14 +5,11 @@ from flask_environments import Environments
 from bson.objectid import ObjectId
 
 app = Flask("potluck")
-
 mongo = PyMongo(app)
 
-
-
-@app.route("/potlucks/accountID/<accountID>")
-def getPotlucksAccountID(accountID):
-  potlucks = mongo.db.potlucks.find({"members.accountID": int(accountID)})
+@app.route("/potlucks/username/<username>")
+def getPotlucksUsername(username):
+  potlucks = mongo.db.potlucks.find({"members.username": username})
   return dumps(potlucks)
 
 @app.route("/potlucks/potluckID/<potluckID>")
@@ -22,6 +19,7 @@ def getPotlucksPotluckID(potluckID):
 
 @app.route("/potlucks/potluckID/<potluckID>", methods=['PUT'])
 def editPotluckPotluckID(potluckID):
+  print(potluckID)
   request.get_json()['_id'] = ObjectId(request.get_json()['_id']['$oid'])
   potlucks = mongo.db.potlucks.update({"_id": ObjectId(potluckID)}, request.get_json())
   return dumps(potlucks)
