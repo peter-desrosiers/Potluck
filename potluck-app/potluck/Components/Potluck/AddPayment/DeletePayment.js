@@ -6,12 +6,12 @@
 
 import React, { Component } from 'react';
 import {FlatList, StyleSheet, Text, View , Button} from 'react-native';
-//import { StackNavigator } from 'react-navigation';
+import { StackNavigator } from 'react-navigation';
 import PropTypes from 'prop-types';
 import AddPayment from './AddPayment';
 
 
-export default class ViewPaymentMethods extends Component<Props> {
+export default class DeletePayment extends Component<Props> {
 
 
   render() {
@@ -32,22 +32,18 @@ export default class ViewPaymentMethods extends Component<Props> {
 
     return (
       <View>
-        <View style={styles.container}>
+        /*<View style={styles.container}>
 
             {samplePayments.map(s => <Text key={s.name, s.cardNumber, s.month, s.year, s.cvv}>
             {s.name} {s.cardNumber.substring(12)} {s.month}/{s.year} {s.cvv}</Text>)}
-        </View>
+        </View>*/
 
-        <View style={styles.Button}>
-          <Button
-            title="Add Payment"
-            onPress={() => this.props.navigation.navigate('AddPaymentScreen')}
-            />
-          <Button
-            title="Delete Payment"
-            onPress={() => this.props.navigation.navigate('DeletePaymentScreen')}
-            />
-        </View>
+
+        <CheckBox
+        label='Label'
+        checked={true}
+        onChange={(checked) => console.log('I am checked', checked)}
+        />
       </View>
     );
   }

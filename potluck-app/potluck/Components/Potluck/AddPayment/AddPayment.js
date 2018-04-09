@@ -40,7 +40,8 @@ const NewPayment = t.struct({
   nameOnCard : t.String,
   creditCardNumber : t.String,
   experationMonth : ExperationMonth,
-  experationYear : ExperationYear
+  experationYear : ExperationYear,
+  cvv: t.String
 });
 
 
@@ -49,30 +50,46 @@ export default class AddPayment extends Component<Props> {
 
   constructor(props){
     super(props);
-    paymentInfo = {nameOnCard: '', creditCardNumber: '', experationMonth : '', experationYear: ''},
-    this.state = {paymentInfo};
+    this.state = {nameOnCard: 'Peter',
+                  creditCardNumber: '',
+                  experationMonth : '',
+                  experationYear: '',
+                  cvv:'',
+      }
   }
 
   onChange(value){
-    this.setState({paymentInfo: value});
+    this.setState({nameOnCard: value});
+    this.setState({creditCardNumber: value});
+    this.setState({experationMonth: value});
+    this.setState({experationYear: value});
+
   }
 
   handleSubmit(event){
 
-    var cardValue = this.state.paymentInfo.creditCardNumber.value
 
-    if(cardValue.length != 16){
-          Alert.alert(
-            "Invalid Credit Card Number"
-          )
-      }
+      this.setState({paymentInfo:{
+        nameOnCard: this.state.nameOnCard,
+        creditCardNumber: this.state.creditCardNumber,
+        experationMonth: this.state.experationMonth,
+        experationYear: this.state.experationYear,
+        cvv: this.state.csv}},
 
-      this.setState({newPaymentMethod:{
-        nameOnCard: this.state.paymentInfo.nameOnCard.value,
-        creditCardNumber: this.state.paymentInfo.creditCardNumber.value,
-        experationMonth: this.state.paymentInfo.experationMonth,
-        experationYear: this.state.paymentInfo.experationYear}},
+        ()=>{
+          console.log(this.state.nameOnCard)
+
+        }
         );
+
+
+        if(this.state.creditCardNumber.length != 16){
+              Alert.alert(
+                "Invalid Credit Card Number"
+              )
+          }
+
+
 
       event.preventDefault();
     }
