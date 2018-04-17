@@ -82,7 +82,7 @@ export default class AddPotluckPersonal extends Component<Props> {
       return (
         <View style = {styles.container}>
         <KeyboardAwareScrollView contentContainerStyle={styles.main}>
-          <Text style={styles.screenTitle}>Add a Personal Potluck</Text>
+          <Text style={styles.screenTitle}>Edit Potluck</Text>
         <Form
         ref="form"
         type={Potluck}

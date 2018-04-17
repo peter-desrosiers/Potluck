@@ -182,12 +182,14 @@ export default class AddPotluckPersonal extends Component<Props> {
         <TextInput type="text" placeholder={"Member\'s username"} onChangeText={ (text) => this.handleMemberChangeUsername(text,idx)}/>
         <TextInput type="text" placeholder={"Member\'s name"} onChangeText={ (text) => this.handleMemberChangeName(text,idx)}/>
         <TouchableHighlight onPress={this.handleDeleteMember.bind(this, idx)} underlayColor='#99d9f4'>
+        <View style={styles.removeMember}>
           <Text style={styles.buttonText}>Remove Member</Text>
+        </View>
         </TouchableHighlight>
         </View>
       ))}
 
-      <TouchableHighlight onPress={this.handleAddMember.bind(this)} underlayColor='#99d9f4'>
+      <TouchableHighlight style={styles.addMember} onPress={this.handleAddMember.bind(this)} underlayColor='#99d9f4'>
         <Text style={styles.buttonText}>Add Member</Text>
       </TouchableHighlight>
 
@@ -225,13 +227,27 @@ const styles = StyleSheet.create({
     height:30,
     borderBottomWidth: 3
   },
+  addMember:{
+    marginTop:10,
+    backgroundColor:'#00FF00',
+
+  },
+  removeMember:{
+    backgroundColor:'#FF0000',
+
+
+  },
   screenTitle:{
     alignItems: 'center',
     fontWeight: 'bold',
     textAlign: 'center',
     padding: 8,
     fontSize: 20,
-  }
+  },
+  buttonText:{
+    textAlign: 'center',
+
+  },
 
 });
 
