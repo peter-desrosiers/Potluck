@@ -158,19 +158,22 @@ export default class AddPotluckGroup extends Component<Props> {
             <Text style={styles.buttonText}>-</Text>
           </TouchableHighlight>
         </View>
-          ))}
-          <TouchableHighlight onPress={this.handleAddMember.bind(this)} underlayColor='#99d9f4'>
-            <Text style={styles.buttonText}>Add Member</Text>
-          </TouchableHighlight>
-        <View style={styles.createPotluckButton}>
-        <TouchableHighlight onPress={this.onPress.bind(this)} underlayColor='#99d9f4'>
-          <Text style={styles.buttonText}>Create Potluck</Text>
-        </TouchableHighlight>
-        </View>
-        </KeyboardAwareScrollView>
-        </View>
+      ))}
 
-        );
+
+        <TouchableHighlight onPress={this.handleAddMember.bind(this)} underlayColor='#99d9f4'>
+          <Text style={styles.buttonText}>Add Member</Text>
+        </TouchableHighlight>
+      <View style={styles.createPotluckButton}>
+      <TouchableHighlight onPress={this.onPress.bind(this)} underlayColor='#99d9f4'>
+        <Text style={styles.buttonText}>Create Potluck</Text>
+      </TouchableHighlight>
+      </View>
+      </KeyboardAwareScrollView>
+      </View>
+
+
+    );
   }
 }
 

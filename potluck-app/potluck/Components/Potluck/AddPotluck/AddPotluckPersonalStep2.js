@@ -93,7 +93,9 @@ const styles = StyleSheet.create({
   container:{
     alignItems: 'center',
     paddingBottom:10,
-    paddingTop:10
+    paddingTop:10,
+    backgroundColor: '#FFFFFF'
+
 
   },
   textInput: {

@@ -77,7 +77,7 @@ export default class HomeScreen extends Component<Props> {
 
 
     return (
-      <View>
+      <View style={styles.container}>
         <KeyboardAwareScrollView>
           <View style={{alignItems: 'center', justifyContent: 'center' }}>
             <TouchableHighlight style = {{padding: 15}} onPress={() => this.props.navigation.navigate('AddPotluckScreen',{
@@ -102,7 +102,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#FFFFFF'
+
   },
   welcome: {
     fontSize: 20,

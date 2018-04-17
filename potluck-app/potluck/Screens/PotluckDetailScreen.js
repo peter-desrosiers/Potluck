@@ -146,7 +146,7 @@ export default class PotluckDetailScreen extends Component<Props> {
 
 
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={styles.container}>
         <ViewPotluck addMoney={this.handleAddMoney.bind(this)} user = {loggedInUser} potluck = {this.state.potluck} />
       </View>
     );
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#FFFFFF',
   },
   welcome: {
     fontSize: 20,

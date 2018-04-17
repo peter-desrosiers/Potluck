@@ -72,7 +72,7 @@ export default class AddPotluckPersonal extends Component<Props> {
         pricePerPerson: value.pricePerPerson,
         isGroupPotluck: false
       }
-      this.props.submitPotluck(values)
+      this.props.updatePotluck(values)
     }
 
   }
@@ -124,7 +124,8 @@ const styles = StyleSheet.create({
   },
   createPotluckButton:{
     alignItems: 'center',
-    padding: 5,
+    padding: 10,
+    marginTop: 20,
     backgroundColor:'#00FF00'
   },
   screenTitle:{
