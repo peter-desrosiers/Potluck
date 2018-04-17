@@ -25,6 +25,10 @@ import EditPotluckScreenStep2 from './Screens/EditPotluckScreenStep2'
 
 import AccountInfoScreen from './Screens/AccountInfoScreen'
 
+import AddPaymentScreen from './Screens/AddPaymentScreen'
+import DeletePaymentScreen from './Screens/DeletePaymentScreen'
+import AddPaymentScreen from './Screens/AddPaymentScreen'
+
 export const PotluckDetailStack = StackNavigator(
   {
     PotluckDetailScreen: {
@@ -44,6 +48,24 @@ export const PotluckDetailStack = StackNavigator(
   {
     mode: 'modal',
     headerMode: 'none',
+  }
+)
+
+
+export const PotLuckPaymentStack = StackNavigator(
+  {
+    AddPaymentScreen:{
+      screen: AddPaymentScreen,
+    },
+    DeletePaymentScreen:{
+      screen: DeletePaymentScreen,
+    },
+    ViewPaymentsScreen:{
+      screen: ViewPaymentsScreen,
+    },
+    {
+      initialRouteName: 'ViewPaymentScreen'
+    }
   }
 )
 
